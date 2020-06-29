@@ -9,6 +9,8 @@ import { AuthorListComponent } from './authors/author-list/author-list.component
 import { AuthorListItemComponent } from './authors/author-list-item/author-list-item.component';
 import { AuthorDetailsComponent } from './authors/author-details/author-details.component';
 import { ShortenPipe } from './utility/shorten.pipe';
+import { ArticleListItemComponent } from './articles/article-list-item/article-list-item.component';
+import { ArticleDetailsComponent } from './articles/article-details/article-details.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { ShortenPipe } from './utility/shorten.pipe';
     AuthorListComponent,
     AuthorListItemComponent,
     AuthorDetailsComponent,
-    ShortenPipe
+    ShortenPipe,
+    ArticleListItemComponent,
+    ArticleDetailsComponent
   ],
   imports: [
     BrowserModule,

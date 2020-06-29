@@ -1,1 +1,14 @@
-<p>article-list works!</p>
+<div class="row">
+  <h3 class="col-md-10">Articles:</h3>
+  <div class="col-md-2">Filter</div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <app-article-list-item
+      *ngFor="let article of articles"
+      [article]="article"
+      [routerLink]="article.id">
+    </app-article-list-item>
+  </div>
+</div>
