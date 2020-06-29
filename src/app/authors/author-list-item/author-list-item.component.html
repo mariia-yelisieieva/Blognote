@@ -5,10 +5,11 @@
   <span class="pull-left">
       <img [src]="author.imageUrl"
           alt="{{author.name}}"
-          class="img-responsive">
+          class="img-responsive img-circle center-block">
   </span>
   <div class="pull-left">
       <h4 class="list-group-item-heading">{{author.name}}</h4>
       <p class="list-group-item-text">{{author.description}}</p>
   </div>
+  <span class="pull-right badge">{{articlesCount}}</span>
 </a>

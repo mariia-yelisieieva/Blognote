@@ -1,1 +1,35 @@
-<p>{{ selectedAuthor.name }}</p>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h2 class="panel-title">Detailed information</h2>
+  </div>
+
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-xs-8">
+        <h3 class="list-group-item-heading">{{selectedAuthor.name}}</h3>
+        <hr>
+        <p class="list-group-item-text">About author:</p>
+        <h4 class="list-group-item-text">{{selectedAuthor.description}}</h4>
+      </div>
+      <div class="col-xs-4">
+        <img class="img-responsive" [src]="selectedAuthor.imageUrl">
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-xs-12">
+        <h4>Articles:</h4>
+        <a class="list-group-item clearfix"
+        *ngFor="let article of articlesByAuthor">
+          <div class="col-xs-9">
+            <b>{{article.name}}</b>
+            <div>{{article.annotation | shorten:50}}</div>
+          </div>
+          <div class="col-xs-3">
+            {{article.creationDate | date:'mediumDate'}}
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Author } from 'src/app/models/author.model';
+import { ArticlesService } from 'src/app/services/articles.service';
 
 @Component({
   selector: 'app-author-list-item',
@@ -8,10 +9,12 @@ import { Author } from 'src/app/models/author.model';
 })
 export class AuthorListItemComponent implements OnInit {
   @Input() author: Author;
+  articlesCount: number;
 
-  constructor() { }
+  constructor(private articlesService: ArticlesService) { }
 
   ngOnInit(): void {
+    this.articlesCount = this.articlesService.getArticleCountByAuthor(this.author.id);
   }
 
 }

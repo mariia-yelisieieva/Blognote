@@ -10,8 +10,8 @@ export class AuthorsService {
       "https://instagram.fiev25-2.fna.fbcdn.net/v/t51.2885-19/s150x150/16122690_1824811327742461_5941039346420285440_a.jpg?_nc_ht=instagram.fiev25-2.fna.fbcdn.net&_nc_ohc=lofwS4JADh8AX-KVR3J&oh=2cbd7d371c255ca1926b835f74d8d764&oe=5F232AF0",
       "Software Developer"),
     new Author("2", "Mighty Author 2",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Hw-shakespeare.png/274px-Hw-shakespeare.png",
-      "Software Developer"),
+      "https://upload.wikimedia.org/wikipedia/commons/a/a2/Shakespeare.jpg",
+      "A mighty author"),
   ];
 
   getAuthors() {
