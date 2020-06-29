@@ -2,7 +2,7 @@ import { Author } from './author.model';
 import { ArticleBlock } from './article-block.model';
 
 export class Article {
-  public articleBlocks: ArticleBlock[];
-
-  constructor(public name: string, public author: Author) { }
+  constructor(public id: string,
+    public name: string, public description: string,
+     public author: Author, public articleBlocks: ArticleBlock[]) { }
 }

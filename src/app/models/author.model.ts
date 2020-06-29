@@ -1,3 +1,3 @@
 export class Author {
-  constructor(public name: string, public imageUrl: string, public description: string) { }
+  constructor(public id: string, public name: string, public imageUrl: string, public description: string) { }
 }

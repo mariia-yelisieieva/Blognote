@@ -1,0 +1,12 @@
+img {
+  max-height: 50px;
+}
+
+span {
+  width: 50px;
+  margin: 2px;
+}
+
+.pull-left {
+  margin-left: 10px;
+}

@@ -1,1 +1,15 @@
-<p>author-list works!</p>
+<div class="row">
+  <h3 class="col-md-12">Here is a list of all authors:</h3>
+</div>
+
+<div class="row">
+  <div class="col-md-7">
+    <app-author-list-item
+      *ngFor="let author of authors"
+      [author]="author">
+    </app-author-list-item>
+  </div>
+  <div class="col-md-5">
+    <router-outlet></router-outlet>
+  </div>
+</div>
