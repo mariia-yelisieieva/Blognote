@@ -1,1 +1,36 @@
-<p>article-list-item works!</p>
+<hr>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="row">
+      <span class="pull-left pointer" [routerLink]="['/authors', article.author.id]">
+        <img [src]="article.author.imageUrl"
+            alt="{{article.author.name}}"
+            class="img-responsive img-circle center-block">
+      </span>
+      <div class="pull-left align-middle">
+        <h4 class="align-middle pointer" [routerLink]="['/authors', article.author.id]">
+          {{article.author.name}} | {{article.author.description | shorten:20}}
+        </h4>
+        <h5>{{article.creationDate | date:'mediumDate'}}</h5>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-body pointer">
+    <div class="row">
+      <div class="col-md-12">
+        <h4>{{article.name}}</h4>
+        <hr>
+        <p>{{article.annotation}}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-footer">
+    <div class="row">
+      <div class="col-md-12">
+        Statistics: {{article.articleBlocks.length}} blocks of which {{getBlocksCount(1)}} picture(-s), {{getBlocksCount(2)}} quote(-s)
+      </div>
+    </div>
+  </div>
+</div>
