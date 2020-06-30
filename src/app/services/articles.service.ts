@@ -4,11 +4,14 @@ import { AuthorsService } from './authors.service';
 import { ArticleBlock } from '../models/article-block.model';
 import { ArticleBlockType } from '../models/article-block-type.model';
 import { ImageArticleBlock } from '../models/image-article-block.model';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArticlesService {
+  articlesChanged = new Subject<Article[]>();
+
   private articles: Article[] = [
     new Article("1", "How to learn Angular", "several words about the article several words about the article several words about the article several words about the article several words about the article several words about the article several words about the article several words about the article several words about the article",
       this.authorsService.getAuthorById("1"), new Date(2019, 6, 18), [
@@ -90,5 +93,18 @@ export class ArticlesService {
         articles.push(article);
     }
     return articles;
+   }
+
+   removeArticle(id: string) {
+    for (let i = 0; i < this.articles.length; i++) {
+      if (this.articles[i].id == id) {
+        this.articles.splice(i, 1);
+        this.updateArticleList();
+      }
+    }
+   }
+
+   private updateArticleList() {
+     this.articlesChanged.next(this.articles.slice());
    }
 }

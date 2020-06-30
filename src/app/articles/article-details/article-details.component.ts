@@ -30,4 +30,8 @@ export class ArticleDetailsComponent implements OnInit {
     return i;
   }
 
+  onRemoveArticle() {
+    this.articlesService.removeArticle(this.article.id);
+  }
+
 }
