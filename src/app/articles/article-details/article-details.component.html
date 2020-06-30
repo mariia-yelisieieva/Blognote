@@ -1,2 +1,36 @@
-<button class="btn" [routerLink]="['/articles']"><i class="glyphicon glyphicon-arrow-left"></i> Back</button>
-<p>article-details works!</p>
+<div class="row">
+  <div class="col-md-12">
+    <button class="btn" [routerLink]="['/articles']"><i class="glyphicon glyphicon-arrow-left"></i> Back</button>
+  </div>
+</div>
+
+<br>
+<div class="row"><h2 class="text-center">{{article.name}}</h2></div>
+<div class="row"><div class="col-md-8 col-md-offset-2 text-center"><b>Annotation: </b><i>{{article.annotation}}</i></div></div>
+<br>
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <app-author-header [article]="article"></app-author-header>
+      </div>
+
+      <div class="panel-body">
+        <div class="col-md-12">
+          <app-article-block
+            *ngFor="let block of article.articleBlocks"
+            [block]="block">
+          </app-article-block>
+        </div>
+      </div>
+
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            Statistics: {{article.articleBlocks.length}} blocks of which {{getBlocksCount(1)}} picture(-s), {{getBlocksCount(2)}} quote(-s)
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

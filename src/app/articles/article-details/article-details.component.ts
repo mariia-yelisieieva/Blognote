@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Article } from 'src/app/models/article.model';
+import { ArticlesService } from 'src/app/services/articles.service';
+import { ArticleBlockType } from 'src/app/models/article-block-type.model';
 
 @Component({
   selector: 'app-article-details',
@@ -6,10 +10,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./article-details.component.css']
 })
 export class ArticleDetailsComponent implements OnInit {
+  article: Article;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private articlesService: ArticlesService) { }
 
   ngOnInit(): void {
+    this.route.params.subscribe((params: Params) => {
+      this.article = this.articlesService.getArticleById(params["id"]);
+    })
+  }
+
+  getBlocksCount(blockType: ArticleBlockType) {
+    let i = 0;
+    for (let block of this.article.articleBlocks) {
+      if (block.type == blockType) {
+        i++;
+      }
+    }
+    return i;
   }
 
 }

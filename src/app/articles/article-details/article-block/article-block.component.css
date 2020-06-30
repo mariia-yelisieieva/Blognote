@@ -1,0 +1,14 @@
+.quote {
+  background-color: #eeeeee;
+  border-left: solid 2px black;
+  padding: 20px;
+  margin: 10px 50px;
+}
+
+.article-text {
+  text-indent: 30px;
+}
+
+:focus {
+  outline: 0;
+}

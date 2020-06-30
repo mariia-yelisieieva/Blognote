@@ -11,6 +11,8 @@ import { AuthorDetailsComponent } from './authors/author-details/author-details.
 import { ShortenPipe } from './utility/shorten.pipe';
 import { ArticleListItemComponent } from './articles/article-list-item/article-list-item.component';
 import { ArticleDetailsComponent } from './articles/article-details/article-details.component';
+import { AuthorHeaderComponent } from './articles/author-header/author-header.component';
+import { ArticleBlockComponent } from './articles/article-details/article-block/article-block.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { ArticleDetailsComponent } from './articles/article-details/article-deta
     AuthorDetailsComponent,
     ShortenPipe,
     ArticleListItemComponent,
-    ArticleDetailsComponent
+    ArticleDetailsComponent,
+    AuthorHeaderComponent,
+    ArticleBlockComponent
   ],
   imports: [
     BrowserModule,

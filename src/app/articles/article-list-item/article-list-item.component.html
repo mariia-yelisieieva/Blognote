@@ -1,19 +1,7 @@
 <hr>
 <div class="panel panel-default">
   <div class="panel-heading">
-    <div class="row">
-      <span class="pull-left pointer" [routerLink]="['/authors', article.author.id]">
-        <img [src]="article.author.imageUrl"
-            alt="{{article.author.name}}"
-            class="img-responsive img-circle center-block">
-      </span>
-      <div class="pull-left align-middle">
-        <h4 class="align-middle pointer" [routerLink]="['/authors', article.author.id]">
-          {{article.author.name}} | {{article.author.description | shorten:20}}
-        </h4>
-        <h5>{{article.creationDate | date:'mediumDate'}}</h5>
-      </div>
-    </div>
+    <app-author-header [article]="article"></app-author-header>
   </div>
 
   <div class="panel-body pointer"
@@ -22,7 +10,7 @@
       <div class="col-md-12">
         <h4>{{article.name}}</h4>
         <hr>
-        <p>{{article.annotation}}</p>
+        <p>{{article.annotation | shorten:300}}</p>
       </div>
     </div>
   </div>
