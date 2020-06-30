@@ -1,12 +1,15 @@
 <div class="row">
   <h3 class="col-md-10">Articles:</h3>
-  <div class="col-md-2">Filter</div>
+  <div class="col-md-2">
+    <label for="filter">Filter:</label>
+    <input type="text" id="filter" class="form-control" [(ngModel)]="filter">
+  </div>
 </div>
 
 <div class="row">
   <div class="col-md-12">
     <app-article-list-item
-      *ngFor="let article of articles"
+      *ngFor="let article of articles | filter:filter:'name':'annotation'"
       [article]="article">
     </app-article-list-item>
   </div>

@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 })
 export class ArticleListComponent implements OnInit, OnDestroy {
   articles: Article[]
+  filter: string;
   private articlesChangedSubscription: Subscription;
 
   constructor(private articlesService: ArticlesService) { }

@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -14,6 +15,7 @@ import { ArticleDetailsComponent } from './articles/article-details/article-deta
 import { AuthorHeaderComponent } from './articles/author-header/author-header.component';
 import { ArticleBlockComponent } from './articles/article-details/article-block/article-block.component';
 import { AboutComponent } from './about/about.component';
+import { FilterPipe } from './utility/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -28,11 +30,13 @@ import { AboutComponent } from './about/about.component';
     ArticleDetailsComponent,
     AuthorHeaderComponent,
     ArticleBlockComponent,
-    AboutComponent
+    AboutComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
