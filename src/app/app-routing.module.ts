@@ -5,6 +5,7 @@ import { ArticleListComponent } from './articles/article-list/article-list.compo
 import { AuthorListComponent } from './authors/author-list/author-list.component';
 import { AuthorDetailsComponent } from './authors/author-details/author-details.component';
 import { ArticleDetailsComponent } from './articles/article-details/article-details.component';
+import { AboutComponent } from './about/about.component';
 
 
 const routes: Routes = [
@@ -15,6 +16,7 @@ const routes: Routes = [
     { path: "", children: [] },
     { path: ":id", component: AuthorDetailsComponent },
   ] },
+  { path: "about", component: AboutComponent },
 ];
 
 @NgModule({

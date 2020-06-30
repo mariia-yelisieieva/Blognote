@@ -20,7 +20,8 @@
       <div class="col-xs-12">
         <h4>Articles:</h4>
         <a class="list-group-item clearfix"
-        *ngFor="let article of articlesByAuthor">
+          *ngFor="let article of articlesByAuthor"
+          [routerLink]="['/articles', article.id]">
           <div class="col-xs-9">
             <b>{{article.name}}</b>
             <div>{{article.annotation | shorten:50}}</div>

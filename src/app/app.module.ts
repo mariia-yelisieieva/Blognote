@@ -13,6 +13,7 @@ import { ArticleListItemComponent } from './articles/article-list-item/article-l
 import { ArticleDetailsComponent } from './articles/article-details/article-details.component';
 import { AuthorHeaderComponent } from './articles/author-header/author-header.component';
 import { ArticleBlockComponent } from './articles/article-details/article-block/article-block.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ArticleBlockComponent } from './articles/article-details/article-block/
     ArticleListItemComponent,
     ArticleDetailsComponent,
     AuthorHeaderComponent,
-    ArticleBlockComponent
+    ArticleBlockComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
