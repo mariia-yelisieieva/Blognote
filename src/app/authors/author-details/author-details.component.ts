@@ -23,4 +23,9 @@ export class AuthorDetailsComponent implements OnInit {
       this.articlesByAuthor = this.articlesService.getArticlesByAuthor(params["id"]);
     });
   }
+
+  onRemoveAuthor() {
+    this.authorsService.removeAuthor(this.selectedAuthor.id);
+  }
+
 }
