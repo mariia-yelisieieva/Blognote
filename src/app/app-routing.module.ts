@@ -11,9 +11,11 @@ import { AuthorListComponent } from './authors/author-list/author-list.component
 import { AuthorDetailsComponent } from './authors/author-details/author-details.component';
 import { ArticleDetailsComponent } from './articles/article-details/article-details.component';
 import { AboutComponent } from './about/about.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 const routes: Routes = [
-  { path: "", redirectTo: "/articles", pathMatch: "full" },
+  { path: "", redirectTo: "/welcome", pathMatch: "full" },
+  { path: "welcome", component: WelcomeComponent },
 
   { path: "register", component: RegisterComponent},
   { path: "login", component: LoginComponent},

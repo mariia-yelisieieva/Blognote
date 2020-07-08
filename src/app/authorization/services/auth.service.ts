@@ -81,6 +81,6 @@ export function getClientSettings(): UserManagerSettings {
       filterProtocolClaims: true,
       loadUserInfo: true,
       automaticSilentRenew: true,
-      // silent_redirect_uri: 'http://localhost:4200/register'
+      silent_redirect_uri: 'http://localhost:4200/silent-refresh.html'
   };
 }

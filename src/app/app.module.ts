@@ -24,6 +24,7 @@ import { AuthorHeaderComponent } from './articles/author-header/author-header.co
 import { ArticleBlockComponent } from './articles/article-details/article-block/article-block.component';
 import { AboutComponent } from './about/about.component';
 import { FilterPipe } from './utility/filter.pipe';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { FilterPipe } from './utility/filter.pipe';
     ConfirmPasswordValidator,
     LoginComponent,
     AuthCallbackComponent,
+    WelcomeComponent,
   ],
   imports: [
     BrowserModule,
