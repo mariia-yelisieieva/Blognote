@@ -14,7 +14,7 @@ export class RegisterComponent implements OnInit {
 
   success: boolean;
   error: string;
-  userRegistration: UserRegistration = { name: "", email: "", password: ""};
+  userRegistration: UserRegistration = { name: "", email: "", password: "", confirmPassword: ""};
   submitted: boolean = false;
 
   constructor(private authService: AuthService, private spinner: NgxSpinnerService) { }
@@ -29,11 +29,10 @@ export class RegisterComponent implements OnInit {
         this.spinner.hide();
       }))
       .subscribe(
-      result => {
-        console.log(result);
-         if (result) {
-           this.success = true;
-         }
+        result => {
+        if (result) {
+          this.success = true;
+        }
       },
       error => {
         this.error = error;

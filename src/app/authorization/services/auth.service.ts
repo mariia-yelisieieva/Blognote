@@ -55,8 +55,6 @@ export class AuthService {
   }
 
   handleError(error: any) {
-    console.log(error);
-
     let applicationError = error.headers.get('Application-Error');
     if (applicationError) {
       return throwError(applicationError);

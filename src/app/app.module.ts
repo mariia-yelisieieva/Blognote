@@ -20,6 +20,7 @@ import { ArticleBlockComponent } from './articles/article-details/article-block/
 import { AboutComponent } from './about/about.component';
 import { FilterPipe } from './utility/filter.pipe';
 import { RegisterComponent } from './authorization/register/register.component';
+import { ConfirmPasswordValidator } from './authorization/utility/confirm-password.validator';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { RegisterComponent } from './authorization/register/register.component';
     AboutComponent,
     FilterPipe,
     RegisterComponent,
+    ConfirmPasswordValidator,
   ],
   imports: [
     BrowserModule,
