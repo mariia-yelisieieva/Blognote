@@ -5,6 +5,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
+import { RegisterComponent } from './authorization/register/register.component';
+import { ConfirmPasswordValidator } from './authorization/utility/confirm-password.validator';
+import { LoginComponent } from './authorization/login/login.component';
+import { AuthCallbackComponent } from './authorization/auth-callback/auth-callback.component';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -19,8 +24,6 @@ import { AuthorHeaderComponent } from './articles/author-header/author-header.co
 import { ArticleBlockComponent } from './articles/article-details/article-block/article-block.component';
 import { AboutComponent } from './about/about.component';
 import { FilterPipe } from './utility/filter.pipe';
-import { RegisterComponent } from './authorization/register/register.component';
-import { ConfirmPasswordValidator } from './authorization/utility/confirm-password.validator';
 
 @NgModule({
   declarations: [
@@ -39,6 +42,8 @@ import { ConfirmPasswordValidator } from './authorization/utility/confirm-passwo
     FilterPipe,
     RegisterComponent,
     ConfirmPasswordValidator,
+    LoginComponent,
+    AuthCallbackComponent,
   ],
   imports: [
     BrowserModule,
