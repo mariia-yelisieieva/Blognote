@@ -14,7 +14,7 @@ export class ArticlesService {
 
   private articles: Article[] = [
     new Article("1", "How to learn Angular", "several words about the article several words about the article several words about the article several words about the article several words about the article several words about the article several words about the article several words about the article several words about the article",
-      this.authorsService.getAuthorById("1"), new Date(2019, 6, 18), [
+      this.authorsService.getAuthorById("e1b354c6-f0fc-4d34-a3e0-59e94b97ba95"), new Date(2019, 6, 18), [
       new ArticleBlock("Block 1",
           "Open any Angular guide and start practicing.",
           ArticleBlockType.Text),
@@ -32,7 +32,7 @@ export class ArticlesService {
           ArticleBlockType.Text),
     ]),
     new Article("123", "How to learn Angular 2.0", "several words about the article",
-      this.authorsService.getAuthorById("1"), new Date(2019, 7, 18), [
+      this.authorsService.getAuthorById("e1b354c6-f0fc-4d34-a3e0-59e94b97ba95"), new Date(2019, 7, 18), [
       new ArticleBlock("Block 1",
           "Open any Angular guide and start practicing.",
           ArticleBlockType.Text),

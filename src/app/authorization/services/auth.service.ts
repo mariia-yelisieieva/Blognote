@@ -23,6 +23,12 @@ export class AuthService {
     });
   }
 
+  register(userRegistration: any) {
+    return this.http
+      .post(this.configService.authApiURI + '/account', userRegistration)
+      .pipe(catchError(this.handleError));
+  }
+
   login() {
     return this.manager.signinRedirect();
   }
@@ -32,10 +38,8 @@ export class AuthService {
       this._authNavStatusSource.next(this.isAuthenticated());
   }
 
-  register(userRegistration: any) {
-    return this.http
-      .post(this.configService.authApiURI + '/account', userRegistration)
-      .pipe(catchError(this.handleError));
+  async signout() {
+    await this.manager.signoutRedirect();
   }
 
   isAuthenticated(): boolean {
@@ -50,8 +54,8 @@ export class AuthService {
     return this.user != null ? this.user.profile.name : '';
   }
 
-  async signout() {
-    await this.manager.signoutRedirect();
+  get id(): string {
+    return this.user != null ? this.user.profile.sub : '';
   }
 
   handleError(error: any) {

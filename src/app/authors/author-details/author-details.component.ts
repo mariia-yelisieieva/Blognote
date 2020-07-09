@@ -13,6 +13,7 @@ import { Article } from 'src/app/models/article.model';
 export class AuthorDetailsComponent implements OnInit {
   selectedAuthor: Author;
   articlesByAuthor: Article[];
+  isCurrentUser: boolean;
 
   constructor(private authorsService: AuthorsService, private articlesService: ArticlesService,
     private route: ActivatedRoute) { }
@@ -21,6 +22,7 @@ export class AuthorDetailsComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.selectedAuthor = this.authorsService.getAuthorById(params["id"]);
       this.articlesByAuthor = this.articlesService.getArticlesByAuthor(params["id"]);
+      this.isCurrentUser = this.authorsService.isCurrentUser(this.selectedAuthor.id);
     });
   }
 

@@ -19,7 +19,10 @@
 
     <div class="row">
       <div class="col-xs-12 ">
-        <button type="button" class="btn btn-danger pull-right" (click)="onRemoveAuthor()" routerLink="/authors">Delete</button>
+        <button type="button" class="btn btn-danger pull-right"
+         *ngIf="isCurrentUser" (click)="onRemoveAuthor()" routerLink="/authors">
+         Delete
+        </button>
       </div>
     </div>
     <br>
