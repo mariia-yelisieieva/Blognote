@@ -1,0 +1,38 @@
+button {
+  margin: 0px 3px;
+}
+
+textarea {
+  resize: none;
+}
+
+img {
+  max-height: 50px;
+}
+
+span {
+  width: 50px;
+  margin: 2px;
+}
+
+.pull-left {
+  margin-left: 10px;
+}
+
+input#name {
+  font-size: 30px;
+  text-align: center;
+  margin: 20px 0px 10px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.header-form-group {
+  margin-bottom: 0px;
+}
+
+textarea#annotation {
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: italic;
+  padding: 2px 12px;
+}

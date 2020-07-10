@@ -69,7 +69,7 @@ export class AuthorsService {
   }
 
   isCurrentUser(id: string): boolean {
-    return id == this.authService.id;
+    return this.authService.isCurrentUser(id);
   }
 
   private updateAuthorList() {

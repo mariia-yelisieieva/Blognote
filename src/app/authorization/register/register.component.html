@@ -31,11 +31,6 @@
             [(ngModel)]="userRegistration.confirmPassword" class="form-control" placeholder="Confirm password" aria-describedby="passwordHelp"
             required minlength=6 confirmpassword>
       </div>
-      <!-- <div style="color:red" *ngIf="f['confirmPassword'].errors && (f['confirmPassword'].dirty || f['confirmPassword'].touched || f.submitted)">
-          <p *ngIf="f['confirmPassword'].errors.confirmPassword">
-              Only allowed name is "Juri" ;)
-          </p>
-      </div> -->
 
       <button class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="!f.form.valid">Go</button>
 

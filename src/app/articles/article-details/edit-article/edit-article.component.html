@@ -1,0 +1,57 @@
+<div class="col-md-12">
+  <form [formGroup]="articleForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="pull-right">
+        <button type="submit" class="btn btn-primary" [disabled]="!articleForm.valid">Save</button>
+        <button type="button" class="btn btn-danger" (click)="navigateBack()">Cancel</button>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+      <div class="form-group col-md-8 col-xs-offset-2 header-form-group">
+        <label for="name" class="sr-only">Name</label>
+        <input type="text" id="name" class="form-control" formControlName="name" placeholder="Name">
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-8 col-xs-offset-2 header-form-group">
+        <label for="annotation" class="sr-only">Annotation</label>
+        <textarea rows="3" id="annotation" class="form-control" formControlName="annotation" placeholder="Name"></textarea>
+    </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="panel panel-default">
+        <div class="panel-heading"><div class="row">
+          <span class="pull-left">
+            <img [src]="author.imageUrl" alt="{{author.name}}" class="img-responsive img-circle center-block">
+          </span>
+          <div class="pull-left align-middle">
+            <h4 class="align-middle">
+              {{author.name}} | {{author.description | shorten:20}}
+            </h4>
+            <h5>{{creationDate | date:'mediumDate'}}</h5>
+          </div>
+        </div>
+
+        </div>
+
+        <div class="panel-body">
+          <div class="col-md-12">
+            Blocks
+            <!-- <app-article-block
+              *ngFor="let block of article.articleBlocks"
+              [block]="block">
+            </app-article-block> -->
+          </div>
+        </div>
+
+        <div class="panel-footer">
+          Footer<!-- <app-article-footer [article]="article"></app-article-footer> -->
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

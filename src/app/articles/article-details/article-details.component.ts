@@ -5,6 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 
 import { Article } from 'src/app/models/article.model';
 import { ArticlesService } from 'src/app/services/articles.service';
+import { AuthService } from 'src/app/authorization/services/auth.service';
 
 @Component({
   selector: 'app-article-details',
@@ -14,10 +15,12 @@ import { ArticlesService } from 'src/app/services/articles.service';
 export class ArticleDetailsComponent implements OnInit, OnDestroy {
   article: Article;
   articlesLoaded: boolean = false;
+  editingMode: boolean = false;
 
   private articlesChangedSubscription: Subscription;
 
-  constructor(private route: ActivatedRoute, private articlesService: ArticlesService, private spinner: NgxSpinnerService) { }
+  constructor(private route: ActivatedRoute, private articlesService: ArticlesService,
+    private authService: AuthService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.spinner.show();
@@ -28,10 +31,6 @@ export class ArticleDetailsComponent implements OnInit, OnDestroy {
     })
   }
 
-  ngOnDestroy(): void {
-    this.articlesChangedSubscription.unsubscribe();
-  }
-
   private selectArticle(id: string) {
     this.article = this.articlesService.getArticleById(id);
     if (this.article == undefined) {
@@ -40,6 +39,15 @@ export class ArticleDetailsComponent implements OnInit, OnDestroy {
       this.articlesLoaded = true;
       this.spinner.hide();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.articlesChangedSubscription.unsubscribe();
+  }
+
+  isCurrentUser(id: string): boolean {
+    return true;
+    // return this.authService.isCurrentUser(id);
   }
 
   onRemoveArticle() {

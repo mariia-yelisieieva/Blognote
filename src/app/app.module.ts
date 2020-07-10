@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
@@ -26,6 +26,7 @@ import { AboutComponent } from './about/about.component';
 import { FilterPipe } from './utility/filter.pipe';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ArticleFooterComponent } from './articles/article-details/article-footer/article-footer.component';
+import { EditArticleComponent } from './articles/article-details/edit-article/edit-article.component';
 
 @NgModule({
   declarations: [
@@ -48,11 +49,13 @@ import { ArticleFooterComponent } from './articles/article-details/article-foote
     AuthCallbackComponent,
     WelcomeComponent,
     ArticleFooterComponent,
+    EditArticleComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     NgxSpinnerModule,
     HttpClientModule,
     BrowserAnimationsModule,

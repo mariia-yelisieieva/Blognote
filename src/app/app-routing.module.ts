@@ -12,6 +12,7 @@ import { AuthorDetailsComponent } from './authors/author-details/author-details.
 import { ArticleDetailsComponent } from './articles/article-details/article-details.component';
 import { AboutComponent } from './about/about.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { EditArticleComponent } from './articles/article-details/edit-article/edit-article.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "/welcome", pathMatch: "full" },
@@ -22,11 +23,14 @@ const routes: Routes = [
   { path: "auth-callback", component: AuthCallbackComponent},
 
   { path: "articles", component: ArticleListComponent},
+  { path: "articles/:id/edit", component: EditArticleComponent },
   { path: "articles/:id", component: ArticleDetailsComponent },
+
   { path: "authors", component: AuthorListComponent, children: [
     { path: "", children: [] },
     { path: ":id", component: AuthorDetailsComponent },
   ] },
+
   { path: "about", component: AboutComponent },
 ];
 
