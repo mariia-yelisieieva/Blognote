@@ -19,7 +19,6 @@ export class ArticlesService {
 
   getArticles() {
     this.authorsService.checkAuthors();
-    this.articles = [];
     this.http
       .get(this.config.resourceApiURI + "/articles")
       .pipe(map(responceData => this.convertJsonToArticles(<Array<any>>responceData)))
@@ -58,6 +57,11 @@ export class ArticlesService {
     return articles;
    }
 
+   private checkArticles() {
+     if (this.articles.length == 0)
+      this.getArticles();
+   }
+
    removeArticle(id: string) {
     for (let i = 0; i < this.articles.length; i++) {
       if (this.articles[i].id == id) {
@@ -69,10 +73,5 @@ export class ArticlesService {
 
    private updateArticleList() {
      this.articlesChanged.next(this.articles.slice());
-   }
-
-   private checkArticles() {
-     if (this.articles.length == 0)
-      this.getArticles();
    }
 }
