@@ -9,12 +9,10 @@ import { ArticlesService } from 'src/app/services/articles.service';
 })
 export class AuthorListItemComponent implements OnInit {
   @Input() author: Author;
-  articlesCount: number;
 
   constructor(private articlesService: ArticlesService) { }
 
   ngOnInit(): void {
-    this.articlesCount = this.articlesService.getArticleCountByAuthor(this.author.id);
   }
 
 }

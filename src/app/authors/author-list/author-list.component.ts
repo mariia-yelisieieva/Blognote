@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthorsService } from 'src/app/services/authors.service';
 import { Author } from 'src/app/models/author.model';
 import { Subscription } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-author-list',
@@ -12,13 +13,15 @@ export class AuthorListComponent implements OnInit, OnDestroy {
   authors: Author[]
   private authorsChangedSubscription: Subscription;
 
-  constructor(private authorsService: AuthorsService) { }
+  constructor(private authorsService: AuthorsService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
+    this.spinner.show();
     this.authorsChangedSubscription = this.authorsService.authorsChanged.subscribe((authors: Author[]) => {
       this.authors = authors;
+      this.spinner.hide();
     });
-    this.authors = this.authorsService.getAuthors();
+    this.authorsService.getAuthors();
   }
 
   ngOnDestroy(): void {

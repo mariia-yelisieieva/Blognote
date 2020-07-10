@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Author } from '../models/author.model';
+import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
+
+import { Author } from '../models/author.model';
 import { AuthService } from '../authorization/services/auth.service';
+import { ConfigService } from '../authorization/services/config.service';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -9,24 +13,40 @@ import { AuthService } from '../authorization/services/auth.service';
 export class AuthorsService {
   authorsChanged = new Subject<Author[]>();
 
-  private authors: Author[] = [
-    new Author("e1b354c6-f0fc-4d34-a3e0-59e94b97ba95", "Mariia Yelisieieva",
-      "https://instagram.fiev25-2.fna.fbcdn.net/v/t51.2885-19/s150x150/16122690_1824811327742461_5941039346420285440_a.jpg?_nc_ht=instagram.fiev25-2.fna.fbcdn.net&_nc_ohc=lofwS4JADh8AX-KVR3J&oh=2cbd7d371c255ca1926b835f74d8d764&oe=5F232AF0",
-      "Software Developer"),
-    new Author("2", "Mighty Author 2",
-      "https://upload.wikimedia.org/wikipedia/commons/a/a2/Shakespeare.jpg",
-      "A mighty author"),
-  ];
+  private authors: Author[] = [];
 
-  constructor(private authService: AuthService) {
-
+  constructor(private authService: AuthService, private http: HttpClient, private config: ConfigService) {
   }
 
   getAuthors() {
-    return this.authors.slice();
+    this.authors = [];
+    this.http
+      .get(this.config.resourceApiURI + "/authors")
+      .pipe(map(responceData => {
+        const authors: Array<Author> = [];
+        for (const authorJson of <Array<any>>responceData) {
+          let author = new Author(authorJson.Id, authorJson.UserId, authorJson.Name, authorJson.ImageUrl, authorJson.Description);
+          author.articlesCount = authorJson.ArticlesCount;
+          authors.push(author)
+        }
+        return authors;
+      }))
+      .subscribe(authors => {
+        this.authors = authors;
+        this.updateAuthorList();
+      });
+  }
+
+  getAuthorByUserId(id: string) {
+    this.checkAuthors();
+    for (let author of this.authors) {
+      if (author.userId == id)
+        return author;
+    }
   }
 
   getAuthorById(id: string) {
+    this.checkAuthors();
     for (let author of this.authors) {
       if (author.id == id)
         return author;
@@ -52,6 +72,11 @@ export class AuthorsService {
 
   private updateAuthorList() {
     this.authorsChanged.next(this.authors.slice());
+  }
+
+  private checkAuthors() {
+    if (this.authors.length == 0)
+      this.getAuthors();
   }
 
 }

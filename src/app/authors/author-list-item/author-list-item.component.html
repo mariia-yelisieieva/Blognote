@@ -1,5 +1,5 @@
 <a style="cursor: pointer;"
-  [routerLink]="[author.id]"
+  [routerLink]="[author.userId]"
   routerLinkActive="active"
   class="list-group-item clearfix">
   <span class="pull-left">
@@ -11,5 +11,5 @@
       <h4 class="list-group-item-heading">{{author.name}}</h4>
       <p class="list-group-item-text">{{author.description}}</p>
   </div>
-  <span class="pull-right badge">{{articlesCount}}</span>
+  <span class="pull-right badge">{{author.articlesCount}}</span>
 </a>

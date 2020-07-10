@@ -30,17 +30,21 @@
     <div class="row">
       <div class="col-xs-12">
         <h4>Articles:</h4>
-        <a class="list-group-item clearfix"
-          *ngFor="let article of articlesByAuthor"
-          [routerLink]="['/articles', article.id]">
-          <div class="col-xs-9">
-            <b>{{article.name}}</b>
-            <div>{{article.annotation | shorten:50}}</div>
-          </div>
-          <div class="col-xs-3">
-            {{article.creationDate | date:'mediumDate'}}
-          </div>
-        </a>
+
+        <p *ngIf="articlesByAuthor.length != selectedAuthor.articlesCount">Loading...</p>
+        <div *ngIf="articlesByAuthor.length == selectedAuthor.articlesCount">
+          <a class="list-group-item clearfix"
+            *ngFor="let article of articlesByAuthor"
+            [routerLink]="['/articles', article.id]">
+            <div class="col-xs-9">
+              <b>{{article.name}}</b>
+              <div>{{article.annotation | shorten:50}}</div>
+            </div>
+            <div class="col-xs-3">
+              {{article.creationDate | date:'mediumDate'}}
+            </div>
+          </a>
+        </div>
       </div>
     </div>
   </div>

@@ -30,12 +30,12 @@ export class RegisterComponent implements OnInit {
       }))
       .subscribe(
         result => {
-        if (result) {
-          this.success = true;
-        }
-      },
-      error => {
-        this.error = error;
-      });
+          if (result) {
+            this.success = true;
+          }
+        },
+        error => {
+          this.error = error;
+        });
   }
 }
