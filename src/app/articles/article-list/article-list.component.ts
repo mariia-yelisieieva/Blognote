@@ -22,7 +22,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
       this.articles = articles;
       this.spinner.hide();
     })
-    this.articles = this.articlesService.getArticles();
+    this.articlesService.getArticles();
   }
 
   ngOnDestroy(): void {

@@ -25,6 +25,7 @@ import { ArticleBlockComponent } from './articles/article-details/article-block/
 import { AboutComponent } from './about/about.component';
 import { FilterPipe } from './utility/filter.pipe';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { ArticleFooterComponent } from './articles/article-details/article-footer/article-footer.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
     LoginComponent,
     AuthCallbackComponent,
     WelcomeComponent,
+    ArticleFooterComponent,
   ],
   imports: [
     BrowserModule,

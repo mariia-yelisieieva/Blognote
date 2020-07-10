@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { Article } from '../models/article.model';
 import { AuthorsService } from './authors.service';
-import { ArticleBlock } from '../models/article-block.model';
-import { ArticleBlockType } from '../models/article-block-type.model';
-import { ImageArticleBlock } from '../models/image-article-block.model';
-import { Subject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 import { ConfigService } from '../authorization/services/config.service';
 
 @Injectable({
@@ -16,22 +15,30 @@ export class ArticlesService {
 
   private articles: Article[] = [];
 
-   constructor(private authorsService: AuthorsService, private http: HttpClient, private config: ConfigService) { }
+  constructor(private authorsService: AuthorsService, private http: HttpClient, private config: ConfigService) { }
 
-   getArticles() {
+  getArticles() {
+    this.authorsService.checkAuthors();
     this.articles = [];
     this.http
       .get(this.config.resourceApiURI + "/articles")
-      .subscribe(responceData => {
-        let array = <Array<any>>responceData;
-        for (let article of array) {
-          this.articles.push(new Article(article.Id, article.Name, article.Annotation,
-            this.authorsService.getAuthorById(article.AuthorId),
-            article.CreationDate, []))
-        }
+      .pipe(map(responceData => this.convertJsonToArticles(<Array<any>>responceData)))
+      .subscribe(articles => {
+        this.articles = articles;
+        this.updateArticleList();
       });
-    return this.articles;
-   }
+  }
+
+  private convertJsonToArticles(jsonArray: Array<any>){
+    const articles: Array<Article> = [];
+    for (const articleJson of jsonArray) {
+      let article = new Article(articleJson.Id, articleJson.Name, articleJson.Annotation,
+        articleJson.CreationDate, []);
+      article.author = this.authorsService.getAuthorById(articleJson.AuthorId);
+      articles.push(article)
+    }
+    return articles;
+  }
 
    getArticleById(id: string) {
     this.checkArticles();

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Article } from 'src/app/models/article.model';
 import { ArticlesService } from 'src/app/services/articles.service';
-import { ArticleBlockType } from 'src/app/models/article-block-type.model';
+import { ArticleBlockType } from 'src/app/models/blocks/article-block-type.model';
 
 @Component({
   selector: 'app-article-details',
@@ -18,16 +18,6 @@ export class ArticleDetailsComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.article = this.articlesService.getArticleById(params["id"]);
     })
-  }
-
-  getBlocksCount(blockType: ArticleBlockType) {
-    let i = 0;
-    for (let block of this.article.articleBlocks) {
-      if (block.type == blockType) {
-        i++;
-      }
-    }
-    return i;
   }
 
   onRemoveArticle() {

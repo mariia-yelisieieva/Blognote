@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Author } from '../models/author.model';
 import { AuthService } from '../authorization/services/auth.service';
 import { ConfigService } from '../authorization/services/config.service';
-import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -18,23 +18,25 @@ export class AuthorsService {
   constructor(private authService: AuthService, private http: HttpClient, private config: ConfigService) {
   }
 
-  getAuthors() {
+  getAuthors(): Subscription {
     this.authors = [];
-    this.http
+    return this.http
       .get(this.config.resourceApiURI + "/authors")
-      .pipe(map(responceData => {
-        const authors: Array<Author> = [];
-        for (const authorJson of <Array<any>>responceData) {
-          let author = new Author(authorJson.Id, authorJson.UserId, authorJson.Name, authorJson.ImageUrl, authorJson.Description);
-          author.articlesCount = authorJson.ArticlesCount;
-          authors.push(author)
-        }
-        return authors;
-      }))
+      .pipe(map(responceData => this.convertJsonToAuthors(<Array<any>>responceData)))
       .subscribe(authors => {
         this.authors = authors;
         this.updateAuthorList();
       });
+  }
+
+  private convertJsonToAuthors(jsonArray: Array<any>){
+    const authors: Array<Author> = [];
+    for (const authorJson of jsonArray) {
+      let author = new Author(authorJson.Id, authorJson.UserId, authorJson.Name, authorJson.ImageUrl, authorJson.Description);
+      author.articlesCount = authorJson.ArticlesCount;
+      authors.push(author)
+    }
+    return authors;
   }
 
   getAuthorByUserId(id: string) {
@@ -74,7 +76,7 @@ export class AuthorsService {
     this.authorsChanged.next(this.authors.slice());
   }
 
-  private checkAuthors() {
+  checkAuthors() {
     if (this.authors.length == 0)
       this.getAuthors();
   }

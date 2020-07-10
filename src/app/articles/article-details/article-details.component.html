@@ -28,11 +28,7 @@
       </div>
 
       <div class="panel-footer">
-        <div class="row">
-          <div class="col-md-12">
-            Statistics: {{article.articleBlocks.length}} blocks of which {{getBlocksCount(1)}} picture(-s), {{getBlocksCount(2)}} quote(-s)
-          </div>
-        </div>
+        <app-article-footer [article]="article"></app-article-footer>
       </div>
     </div>
   </div>
