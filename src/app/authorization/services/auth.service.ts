@@ -46,6 +46,10 @@ export class AuthService {
     return this.user != null && !this.user.expired;
   }
 
+  isCurrentUser(id: string): boolean {
+    return id == this.id;
+  }
+
   get authorizationHeaderValue(): string {
     return `${this.user.token_type} ${this.user.access_token}`;
   }
@@ -58,7 +62,7 @@ export class AuthService {
     return this.user != null ? this.user.profile.sub : '';
   }
 
-  handleError(error: any) {
+  private handleError(error: any) {
     let applicationError = error.headers.get('Application-Error');
     if (applicationError) {
       return throwError(applicationError);
