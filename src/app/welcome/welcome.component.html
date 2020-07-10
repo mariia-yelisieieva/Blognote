@@ -1,5 +1,5 @@
 <div class="row">
-  <h2 class="col-md-12 text-center">Welcome to the Blognote!</h2>
+  <h2 class="col-md-12 text-center">Welcome to the Blognote<span *ngIf="name">, {{name}}</span>!</h2>
 </div>
 <br>
 <div class="row">
@@ -10,7 +10,7 @@
   <hr>
   <br>
 </div>
-<div class="row">
+<div class="row" *ngIf="!name">
   <h4 class="col-md-12 text-center">Please, <a routerLink="/login">login</a> to create your own articles, to give access to your unlimited knowledge!</h4>
   <h4 class="col-md-12 text-center">If you do not have an account you can always create it with <a routerLink="/register">registration</a>.</h4>
 </div>
