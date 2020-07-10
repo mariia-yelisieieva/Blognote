@@ -6,6 +6,11 @@ import { ArticlesService } from 'src/app/services/articles.service';
 import { Author } from 'src/app/models/author.model';
 import { AuthorsService } from 'src/app/services/authors.service';
 import { AuthService } from 'src/app/authorization/services/auth.service';
+import { ArticleBlock } from 'src/app/models/blocks/article-block.model';
+import { ArticleBlockType } from 'src/app/models/blocks/article-block-type.model';
+import { TextArticleBlock } from 'src/app/models/blocks/text-article-block.model';
+import { ImageArticleBlock } from 'src/app/models/blocks/image-article-block.model';
+import { QuoteArticleBlock } from 'src/app/models/blocks/quote-article-block.model';
 
 @Component({
   selector: 'app-edit-article',
@@ -16,6 +21,7 @@ export class EditArticleComponent implements OnInit {
   id: string;
   editMode: boolean;
   articleForm: FormGroup;
+  article: Article = new Article("", "", "", new Date(), []);
 
   author: Author;
   creationDate: Date = new Date();
@@ -38,33 +44,51 @@ export class EditArticleComponent implements OnInit {
     let articleBlocks = new FormArray([]);
 
     if (this.editMode) {
-      const article = this.articlesService.getArticleById(this.id);
-      this.creationDate = article.creationDate;
-
-      articleName = article.name;
-      articleAnnotation = article.annotation;
-      if (article["blocks"]) {
-        for (let block of article.articleBlocks) {
-          // const contentControl = { 'name': new FormControl(block.content, Validators.required) };
-          // articleBlocks.push(new FormGroup({
-
-          // }));
+      this.article = this.articlesService.getArticleById(this.id);
+      this.creationDate = this.article.creationDate;
+console.log(this.author);
+      articleName = this.article.name;
+      articleAnnotation = this.article.annotation;
+      if (this.article["articleBlocks"]) {
+        for (let block of this.article.articleBlocks) {
+          articleBlocks.push(this.getBlockFormGroup(block));
         }
       }
-    //       recipeIngredients.push(new FormGroup({
-    //         'name': new FormControl(ingredient.name, Validators.required),
-    //         'amount': new FormControl(ingredient.amount, [
-    //           Validators.required,
-    //           Validators.pattern(/^[1-9]+[0-9]*$/),
-    //         ]),
-    //       }))
     }
+    console.log(this.author);
 
     this.articleForm = new FormGroup({
       'name': new FormControl(articleName, Validators.required),
       'annotation': new FormControl(articleAnnotation, Validators.required),
       'blocks': articleBlocks,
     });
+  }
+
+  private getBlockFormGroup(block: ArticleBlock): FormGroup {
+    switch (block.type) {
+      case ArticleBlockType.Text:
+        return new FormGroup({
+          'content': new FormControl(block.content, Validators.required),
+          'name': new FormControl((<TextArticleBlock>block).name),
+        });
+
+      case ArticleBlockType.Image:
+        return new FormGroup({
+          'content': new FormControl(block.content, Validators.required),
+          'imageComment': new FormControl((<ImageArticleBlock>block).imageComment, Validators.required),
+        });
+
+      case ArticleBlockType.Quote:
+        return new FormGroup({
+          'content': new FormControl(block.content, Validators.required),
+          'quoteAuthor': new FormControl((<QuoteArticleBlock>block).quoteAuthor),
+        });
+    }
+  }
+
+  get blockControls() {
+    console.log(this.author);
+    return (<FormArray>this.articleForm.get('blocks')).controls;
   }
 
   onSubmit() {

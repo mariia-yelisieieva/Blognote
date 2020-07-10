@@ -6,52 +6,126 @@
         <button type="button" class="btn btn-danger" (click)="navigateBack()">Cancel</button>
       </div>
     </div>
-
     <br>
 
     <div class="row">
-      <div class="form-group col-md-8 col-xs-offset-2 header-form-group">
-        <label for="name" class="sr-only">Name</label>
-        <input type="text" id="name" class="form-control" formControlName="name" placeholder="Name">
+      <div class="form-group col-md-6 col-xs-offset-3 header-form-group">
+        <input type="text" id="article-name" class="form-control" formControlName="name" placeholder="Name">
       </div>
     </div>
     <div class="row">
-      <div class="form-group col-md-8 col-xs-offset-2 header-form-group">
-        <label for="annotation" class="sr-only">Annotation</label>
-        <textarea rows="3" id="annotation" class="form-control" formControlName="annotation" placeholder="Name"></textarea>
-    </div>
+      <div class="form-group col-md-10 col-xs-offset-1 header-form-group">
+        <textarea id="annotation" class="form-control" formControlName="annotation" placeholder="Annotation"></textarea>
+      </div>
     </div>
     <br>
+
     <div class="row">
       <div class="panel panel-default">
-        <div class="panel-heading"><div class="row">
-          <span class="pull-left">
-            <img [src]="author.imageUrl" alt="{{author.name}}" class="img-responsive img-circle center-block">
-          </span>
-          <div class="pull-left align-middle">
-            <h4 class="align-middle">
-              {{author.name}} | {{author.description | shorten:20}}
-            </h4>
-            <h5>{{creationDate | date:'mediumDate'}}</h5>
-          </div>
-        </div>
-
+        <div class="panel-heading">
+          <app-author-header [article]="article"></app-author-header>
         </div>
 
         <div class="panel-body">
-          <div class="col-md-12">
-            Blocks
-            <!-- <app-article-block
-              *ngFor="let block of article.articleBlocks"
-              [block]="block">
-            </app-article-block> -->
+          <div class="col-md-12" formArrayName="blocks">
+            <div *ngFor="let blockControl of blockControls; let i = index" [formGroupName]="i">
+              <div class="row" [ngSwitch]="article.articleBlocks[i].type">
+
+                <div class="col-md-12">
+                  <div *ngSwitchCase="'text'">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="pull-left">{{i + 1}}. Text block</div>
+                            <div class="pull-right">
+                              <button type="button" class="btn btn-default btn-xs">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true" style="color:red"></span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel-body">
+                        <div class="row">
+                          <div class="col-md-3 text-name">
+                            <input type="text" class="form-control" formControlName="name" placeholder="Name">
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-12 text-name">
+                            <textarea rows="3" class="form-control" formControlName="content" placeholder="Text"></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div *ngSwitchCase="'image'">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="pull-left">{{i + 1}}. Image block</div>
+                            <div class="pull-right">
+                              <button type="button" class="btn btn-default btn-xs">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true" style="color:red"></span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel-body">
+                        <div class="row">
+                          <div class="col-md-3 text-name">
+                            <input type="text" class="form-control" formControlName="content" placeholder="Image URL">
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-12 text-name">
+                            <input type="text" class="form-control" formControlName="imageComment" placeholder="Image comment">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div *ngSwitchCase="'quote'">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="pull-left">{{i + 1}}. Quote block</div>
+                            <div class="pull-right">
+                              <button type="button" class="btn btn-default btn-xs">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true" style="color:red"></span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel-body">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <input type="text" class="form-control" formControlName="content" placeholder="Quote" style="width: 70%; float: left;">
+                            <input type="text" class="form-control" formControlName="quoteAuthor" placeholder="Quote author" style="width: 27%; float: right;">
+                            <span style="width: 20px; margin: 5px 4px; float: right;">(c)</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
-
         <div class="panel-footer">
-          Footer<!-- <app-article-footer [article]="article"></app-article-footer> -->
+          <app-article-footer [article]="article"></app-article-footer>
         </div>
       </div>
+
     </div>
   </form>
 </div>

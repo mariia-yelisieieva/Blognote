@@ -6,20 +6,7 @@ textarea {
   resize: none;
 }
 
-img {
-  max-height: 50px;
-}
-
-span {
-  width: 50px;
-  margin: 2px;
-}
-
-.pull-left {
-  margin-left: 10px;
-}
-
-input#name {
+input#article-name {
   font-size: 30px;
   text-align: center;
   margin: 20px 0px 10px;
@@ -31,8 +18,15 @@ input#name {
 }
 
 textarea#annotation {
+  height: 60px;
+  font-size: 14px;
   text-align: center;
   font-family: Arial, Helvetica, sans-serif;
   font-style: italic;
-  padding: 2px 12px;
+  padding: 9px 12px;
+  margin-bottom: -1px;
+}
+
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
 }
