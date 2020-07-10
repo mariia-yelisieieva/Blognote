@@ -1,23 +1,24 @@
 <div class="row" [ngSwitch]="block.type">
   <div class="col-md-12">
 
-    <div *ngSwitchCase="0">
+    <div *ngSwitchCase="'text'">
       <div>
         <h4 *ngIf="textBlock.name">{{textBlock.name}}</h4>
       </div>
       <p class="article-text">{{textBlock.content}}</p>
     </div>
 
-    <div *ngSwitchCase="1">
+    <div *ngSwitchCase="'image'">
       <img [src]="imageBlock.content" class="center-block">
       <p class="text-center col-md-6 col-md-offset-3">{{imageBlock.imageComment}}</p>
     </div>
 
-    <div *ngSwitchCase="2">
+    <div *ngSwitchCase="'quote'">
       <div class="quote">
         <i>{{quoteBlock.content}}</i>
-        <i *ngIf="quoteBlock.quoteAuthor"> (c) {{quoteBlock.quoteAuthor}}</i>
+        <span *ngIf="quoteBlock.quoteAuthor">  (c) <i>{{quoteBlock.quoteAuthor}}</i></span>
       </div>
     </div>
+
   </div>
 </div>

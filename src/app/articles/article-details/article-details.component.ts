@@ -13,6 +13,7 @@ import { ArticlesService } from 'src/app/services/articles.service';
 })
 export class ArticleDetailsComponent implements OnInit, OnDestroy {
   article: Article;
+  articlesLoaded: boolean = false;
 
   private articlesChangedSubscription: Subscription;
 
@@ -36,6 +37,7 @@ export class ArticleDetailsComponent implements OnInit, OnDestroy {
     if (this.article == undefined) {
       this.article = new Article("", "", "", new Date(), []);
     } else {
+      this.articlesLoaded = true;
       this.spinner.hide();
     }
   }
