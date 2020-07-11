@@ -27,7 +27,10 @@
         </div>
 
         <div class="panel-body">
-          <div class="col-md-12" formArrayName="blocks">
+          <div class="col-md-12 blocks-array" formArrayName="blocks">
+            <div class="alert alert-danger" role="alert" *ngIf="!articleForm.get('blocks').valid">
+              An article must contain at least 1 block, all blocks should contain valid data.
+            </div>
 
             <div *ngFor="let blockControl of blockControls; let i = index" [formGroupName]="i">
               <div class="row" [ngSwitch]="article.articleBlocks[i].type">
@@ -40,7 +43,7 @@
                           <div class="col-md-12">
                             <div class="pull-left">{{i + 1}}. Text block</div>
                             <div class="pull-right">
-                              <button type="button" class="btn btn-default btn-xs">
+                              <button type="button" class="btn btn-default btn-xs" (click)="onRemoveBlock(i)">
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                               </button>
                             </div>
@@ -69,7 +72,7 @@
                           <div class="col-md-12">
                             <div class="pull-left">{{i + 1}}. Image block</div>
                             <div class="pull-right">
-                              <button type="button" class="btn btn-default btn-xs">
+                              <button type="button" class="btn btn-default btn-xs" (click)="onRemoveBlock(i)">
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                               </button>
                             </div>
@@ -101,7 +104,7 @@
                           <div class="col-md-12">
                             <div class="pull-left">{{i + 1}}. Quote block</div>
                             <div class="pull-right">
-                              <button type="button" class="btn btn-default btn-xs">
+                              <button type="button" class="btn btn-default btn-xs" (click)="onRemoveBlock(i)">
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                               </button>
                             </div>

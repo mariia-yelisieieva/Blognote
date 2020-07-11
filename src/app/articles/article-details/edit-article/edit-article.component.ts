@@ -12,6 +12,7 @@ import { ArticleBlockType } from 'src/app/models/blocks/article-block-type.model
 import { TextArticleBlock } from 'src/app/models/blocks/text-article-block.model';
 import { ImageArticleBlock } from 'src/app/models/blocks/image-article-block.model';
 import { QuoteArticleBlock } from 'src/app/models/blocks/quote-article-block.model';
+import { ArticleBlockHelper } from 'src/app/models/blocks/block.helper';
 
 @Component({
   selector: 'app-edit-article',
@@ -23,6 +24,7 @@ export class EditArticleComponent implements OnInit {
   editMode: boolean;
   articleForm: FormGroup;
   article: Article = new Article("", "", "", new Date(), []);
+  originalArticle: Article = this.article;
 
   author: Author;
   creationDate: Date = new Date();
@@ -42,10 +44,11 @@ export class EditArticleComponent implements OnInit {
   private initForm() {
     let articleName = "";
     let articleAnnotation = "";
-    let articleBlocks = new FormArray([]);
+    let articleBlocks = new FormArray([], Validators.required);
 
     if (this.editMode) {
-      this.article = this.articlesService.getArticleById(this.id);
+      this.originalArticle = this.articlesService.getArticleById(this.id);
+      this.cloneOriginalArticle();
       this.creationDate = this.article.creationDate;
 
       articleName = this.article.name;
@@ -64,18 +67,29 @@ export class EditArticleComponent implements OnInit {
     });
   }
 
+  private cloneOriginalArticle() {
+    let blocks: ArticleBlock[] = [];
+    let blockHelper = new ArticleBlockHelper();
+    for (let block of this.originalArticle.articleBlocks) {
+      blocks.push(blockHelper.clone(block));
+    }
+    this.article = new Article(this.originalArticle.id, this.originalArticle.name,
+      this.originalArticle.annotation, this.originalArticle.creationDate, blocks);
+      this.article.author = this.originalArticle.author;
+  }
+
   private getBlockFormGroup(blockType: string, block: ArticleBlock): FormGroup {
     switch (blockType) {
       case ArticleBlockType.Text:
         return new FormGroup({
-          'content': new FormControl(block?.content, Validators.required),
+          'content': new FormControl(block?.content),
           'name': new FormControl((<TextArticleBlock>block)?.name),
         });
 
       case ArticleBlockType.Image:
         return new FormGroup({
           'content': new FormControl(block?.content, Validators.required),
-          'imageComment': new FormControl((<ImageArticleBlock>block)?.imageComment, Validators.required),
+          'imageComment': new FormControl((<ImageArticleBlock>block)?.imageComment),
         });
 
       case ArticleBlockType.Quote:
@@ -115,6 +129,10 @@ export class EditArticleComponent implements OnInit {
     (<FormArray>this.articleForm.get('blocks')).push(this.getBlockFormGroup(blockType, null));
   }
 
+  onRemoveBlock(index: number) {
+    (<FormArray>this.articleForm.get('blocks')).removeAt(index);
+    this.article.articleBlocks.splice(index, 1);
+  }
 
   navigateBack() {
     this.router.navigate(['../'], {relativeTo: this.route});
