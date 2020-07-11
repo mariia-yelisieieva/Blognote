@@ -27,6 +27,7 @@ import { FilterPipe } from './utility/filter.pipe';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ArticleFooterComponent } from './articles/article-details/article-footer/article-footer.component';
 import { EditArticleComponent } from './articles/article-details/edit-article/edit-article.component';
+import { DropdownDirective } from './utility/dropdown.directive';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { EditArticleComponent } from './articles/article-details/edit-article/ed
     WelcomeComponent,
     ArticleFooterComponent,
     EditArticleComponent,
+    DropdownDirective
   ],
   imports: [
     BrowserModule,

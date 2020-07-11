@@ -40,13 +40,13 @@ export class ArticlesService {
       for (const jsonBlock of articleJson.Blocks) {
         switch (jsonBlock.Type) {
           case ArticleBlockType.Text:
-            blocks.push(new TextArticleBlock(jsonBlock.Id, jsonBlock.Order, jsonBlock.Content, jsonBlock.Name));
+            blocks.push(new TextArticleBlock(jsonBlock.BlockId, jsonBlock.Order, jsonBlock.Content, jsonBlock.Name));
             break;
           case ArticleBlockType.Image:
-            blocks.push(new ImageArticleBlock(jsonBlock.Id, jsonBlock.Order, jsonBlock.Content, jsonBlock.ImageComment));
+            blocks.push(new ImageArticleBlock(jsonBlock.BlockId, jsonBlock.Order, jsonBlock.Content, jsonBlock.ImageComment));
             break;
           case ArticleBlockType.Quote:
-            blocks.push(new QuoteArticleBlock(jsonBlock.Id, jsonBlock.Order, jsonBlock.Content, jsonBlock.QuoteAuthor));
+            blocks.push(new QuoteArticleBlock(jsonBlock.BlockId, jsonBlock.Order, jsonBlock.Content, jsonBlock.QuoteAuthor));
             break;
         }
       }

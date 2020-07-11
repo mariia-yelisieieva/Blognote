@@ -52,7 +52,7 @@ export class EditArticleComponent implements OnInit {
       articleAnnotation = this.article.annotation;
       if (this.article["articleBlocks"]) {
         for (let block of this.article.articleBlocks) {
-          articleBlocks.push(this.getBlockFormGroup(block));
+          articleBlocks.push(this.getBlockFormGroup(block.type, block));
         }
       }
     }
@@ -64,24 +64,24 @@ export class EditArticleComponent implements OnInit {
     });
   }
 
-  private getBlockFormGroup(block: ArticleBlock): FormGroup {
-    switch (block.type) {
+  private getBlockFormGroup(blockType: string, block: ArticleBlock): FormGroup {
+    switch (blockType) {
       case ArticleBlockType.Text:
         return new FormGroup({
-          'content': new FormControl(block.content, Validators.required),
-          'name': new FormControl((<TextArticleBlock>block).name),
+          'content': new FormControl(block?.content, Validators.required),
+          'name': new FormControl((<TextArticleBlock>block)?.name),
         });
 
       case ArticleBlockType.Image:
         return new FormGroup({
-          'content': new FormControl(block.content, Validators.required),
-          'imageComment': new FormControl((<ImageArticleBlock>block).imageComment, Validators.required),
+          'content': new FormControl(block?.content, Validators.required),
+          'imageComment': new FormControl((<ImageArticleBlock>block)?.imageComment, Validators.required),
         });
 
       case ArticleBlockType.Quote:
         return new FormGroup({
-          'content': new FormControl(block.content, Validators.required),
-          'quoteAuthor': new FormControl((<QuoteArticleBlock>block).quoteAuthor),
+          'content': new FormControl(block?.content, Validators.required),
+          'quoteAuthor': new FormControl((<QuoteArticleBlock>block)?.quoteAuthor),
         });
     }
   }
@@ -98,6 +98,23 @@ export class EditArticleComponent implements OnInit {
     // }
     this.navigateBack();
   }
+
+  onAddBlock(blockType: string) {
+    let id = this.article.articleBlocks.length + 1;
+    switch (blockType) {
+      case ArticleBlockType.Text:
+        this.article.articleBlocks.push(new TextArticleBlock(id, id, "", ""));
+        break;
+      case ArticleBlockType.Image:
+        this.article.articleBlocks.push(new ImageArticleBlock(id, id, "", ""));
+        break;
+      case ArticleBlockType.Quote:
+        this.article.articleBlocks.push(new QuoteArticleBlock(id, id, "", ""));
+        break;
+    }
+    (<FormArray>this.articleForm.get('blocks')).push(this.getBlockFormGroup(blockType, null));
+  }
+
 
   navigateBack() {
     this.router.navigate(['../'], {relativeTo: this.route});

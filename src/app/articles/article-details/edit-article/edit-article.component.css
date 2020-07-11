@@ -43,3 +43,7 @@ input.ng-invalid.ng-touched {
 .text-content {
   text-indent: 30px;
 }
+
+.image-comment {
+  margin-top: 5px;
+}
