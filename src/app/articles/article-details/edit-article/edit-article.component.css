@@ -30,3 +30,16 @@ textarea#annotation {
 input.ng-invalid.ng-touched {
   border: 1px solid red;
 }
+
+.glyphicon.glyphicon-trash {
+  color: red;
+}
+
+.block-name {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.text-content {
+  text-indent: 30px;
+}

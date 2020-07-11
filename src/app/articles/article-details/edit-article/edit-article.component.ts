@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+
 import { Article } from 'src/app/models/article.model';
 import { ArticlesService } from 'src/app/services/articles.service';
 import { Author } from 'src/app/models/author.model';
@@ -46,7 +47,7 @@ export class EditArticleComponent implements OnInit {
     if (this.editMode) {
       this.article = this.articlesService.getArticleById(this.id);
       this.creationDate = this.article.creationDate;
-console.log(this.author);
+
       articleName = this.article.name;
       articleAnnotation = this.article.annotation;
       if (this.article["articleBlocks"]) {
@@ -55,7 +56,6 @@ console.log(this.author);
         }
       }
     }
-    console.log(this.author);
 
     this.articleForm = new FormGroup({
       'name': new FormControl(articleName, Validators.required),
@@ -87,7 +87,6 @@ console.log(this.author);
   }
 
   get blockControls() {
-    console.log(this.author);
     return (<FormArray>this.articleForm.get('blocks')).controls;
   }
 

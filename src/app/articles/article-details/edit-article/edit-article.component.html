@@ -40,7 +40,7 @@
                             <div class="pull-left">{{i + 1}}. Text block</div>
                             <div class="pull-right">
                               <button type="button" class="btn btn-default btn-xs">
-                                <span class="glyphicon glyphicon-trash" aria-hidden="true" style="color:red"></span>
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                               </button>
                             </div>
                           </div>
@@ -48,13 +48,13 @@
                       </div>
                       <div class="panel-body">
                         <div class="row">
-                          <div class="col-md-3 text-name">
-                            <input type="text" class="form-control" formControlName="name" placeholder="Name">
+                          <div class="col-md-3">
+                            <input type="text" class="form-control block-name" formControlName="name" placeholder="Name">
                           </div>
                         </div>
                         <div class="row">
-                          <div class="col-md-12 text-name">
-                            <textarea rows="3" class="form-control" formControlName="content" placeholder="Text"></textarea>
+                          <div class="col-md-12">
+                            <textarea rows="3" class="form-control text-content" formControlName="content" placeholder="Text"></textarea>
                           </div>
                         </div>
                       </div>
@@ -69,7 +69,7 @@
                             <div class="pull-left">{{i + 1}}. Image block</div>
                             <div class="pull-right">
                               <button type="button" class="btn btn-default btn-xs">
-                                <span class="glyphicon glyphicon-trash" aria-hidden="true" style="color:red"></span>
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                               </button>
                             </div>
                           </div>
@@ -77,13 +77,16 @@
                       </div>
                       <div class="panel-body">
                         <div class="row">
-                          <div class="col-md-3 text-name">
+                          <div class="col-md-12 text-name">
                             <input type="text" class="form-control" formControlName="content" placeholder="Image URL">
                           </div>
                         </div>
                         <div class="row">
-                          <div class="col-md-12 text-name">
-                            <input type="text" class="form-control" formControlName="imageComment" placeholder="Image comment">
+                          <img [src]="blockControls[i].value.content" class="center-block">
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6 col-md-offset-3">
+                            <input type="text" class="form-control text-center" formControlName="imageComment" placeholder="Image comment">
                           </div>
                         </div>
                       </div>
@@ -98,7 +101,7 @@
                             <div class="pull-left">{{i + 1}}. Quote block</div>
                             <div class="pull-right">
                               <button type="button" class="btn btn-default btn-xs">
-                                <span class="glyphicon glyphicon-trash" aria-hidden="true" style="color:red"></span>
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                               </button>
                             </div>
                           </div>
