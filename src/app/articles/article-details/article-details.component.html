@@ -3,7 +3,7 @@
     <div class="pull-left">
       <button class="btn" [routerLink]="['/articles']"><i class="glyphicon glyphicon-arrow-left"></i> Back</button>
     </div>
-    <div *ngIf="isCurrentUser(article.author.userId)" class="pull-right">
+    <div *ngIf="isCurrentUser" class="pull-right">
       <button class="btn btn-primary" routerLink="edit">Edit</button>
       <!-- <button class="btn btn-danger" (click)="onRemoveArticle()" [routerLink]="['/articles']">Delete</button> -->
     </div>

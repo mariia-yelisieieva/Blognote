@@ -17,6 +17,7 @@ export class ArticleDetailsComponent implements OnInit, OnDestroy {
   article: Article;
   articlesLoaded: boolean = false;
   editingMode: boolean = false;
+  isCurrentUser: boolean;
 
   private articlesChangedSubscription: Subscription;
 
@@ -43,6 +44,7 @@ export class ArticleDetailsComponent implements OnInit, OnDestroy {
     } else {
       this.articlesLoaded = true;
       this.spinner.hide();
+      this.isCurrentUser = this.authService.isCurrentUser(this.article.author.userId);
     }
   }
 
@@ -50,10 +52,9 @@ export class ArticleDetailsComponent implements OnInit, OnDestroy {
     this.articlesChangedSubscription.unsubscribe();
   }
 
-  isCurrentUser(id: string): boolean {
-    return true;
-    // return this.authService.isCurrentUser(id);
-  }
+  // isCurrentUser(id: string): boolean {
+  //   return this.authService.isCurrentUser(id);
+  // }
 
   onRemoveArticle() {
     this.articlesService.removeArticle(this.article.id);
