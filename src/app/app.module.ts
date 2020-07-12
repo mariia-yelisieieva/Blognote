@@ -28,6 +28,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { ArticleFooterComponent } from './articles/article-details/article-footer/article-footer.component';
 import { EditArticleComponent } from './articles/article-details/edit-article/edit-article.component';
 import { DropdownDirective } from './utility/dropdown.directive';
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { DropdownDirective } from './utility/dropdown.directive';
     WelcomeComponent,
     ArticleFooterComponent,
     EditArticleComponent,
-    DropdownDirective
+    DropdownDirective,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -22,7 +23,7 @@ export class ArticlesService {
   private articles: Article[] = [];
 
   constructor(private authorsService: AuthorsService, private http: HttpClient,
-    private config: ConfigService, private authService: AuthService) { }
+    private config: ConfigService, private authService: AuthService, private router: Router) { }
 
   getArticles() {
     this.authorsService.checkAuthors();
@@ -33,8 +34,9 @@ export class ArticlesService {
         this.articles = articles;
         this.updateArticleList();
       }, error => {
-        console.log(error);
-        this.articlesChanged.next([]);
+        let route = this.router.config.find(r => r.path === 'error');
+        route.data = { error: error.message };
+        this.router.navigateByUrl('error');
       });
   }
 
@@ -133,8 +135,9 @@ export class ArticlesService {
         }
         this.updateArticleList();
       }, error => {
-        console.log(error);
-        this.updateArticleList();
+        let route = this.router.config.find(r => r.path === 'error');
+        route.data = { error: error.message };
+        this.router.navigateByUrl('error');
       });
   }
 

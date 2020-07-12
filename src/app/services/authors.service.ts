@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
@@ -15,7 +16,8 @@ export class AuthorsService {
 
   private authors: Author[] = [];
 
-  constructor(private authService: AuthService, private http: HttpClient, private config: ConfigService) {
+  constructor(private authService: AuthService, private http: HttpClient, private config: ConfigService,
+    private router: Router) {
   }
 
   getAuthors(): Subscription {
@@ -27,8 +29,9 @@ export class AuthorsService {
         this.authors = authors;
         this.updateAuthorList();
       }, error => {
-        console.log(error);
-        this.authorsChanged.next([]);
+        let route = this.router.config.find(r => r.path === 'error');
+        route.data = { error: error.message };
+        this.router.navigateByUrl('error');
       });
   }
 

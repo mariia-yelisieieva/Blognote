@@ -4,6 +4,7 @@ import { finalize } from 'rxjs/operators'
 
 import { UserRegistration } from '../models/user.registration';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +18,7 @@ export class RegisterComponent implements OnInit {
   userRegistration: UserRegistration = { name: "", email: "", password: "", confirmPassword: ""};
   submitted: boolean = false;
 
-  constructor(private authService: AuthService, private spinner: NgxSpinnerService) { }
+  constructor(private authService: AuthService, private spinner: NgxSpinnerService, private router: Router) { }
 
   ngOnInit(): void { }
 
@@ -35,7 +36,9 @@ export class RegisterComponent implements OnInit {
           }
         },
         error => {
-          this.error = error;
+          let route = this.router.config.find(r => r.path === 'error');
+          route.data = { error: error.message };
+          this.router.navigateByUrl('error');
         });
   }
 }

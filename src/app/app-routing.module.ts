@@ -13,10 +13,12 @@ import { ArticleDetailsComponent } from './articles/article-details/article-deta
 import { AboutComponent } from './about/about.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { EditArticleComponent } from './articles/article-details/edit-article/edit-article.component';
+import { ErrorComponent } from './error/error.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "/welcome", pathMatch: "full" },
   { path: "welcome", component: WelcomeComponent },
+  { path: "error", component: ErrorComponent },
 
   { path: "register", component: RegisterComponent},
   { path: "login", component: LoginComponent},

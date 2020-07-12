@@ -112,8 +112,9 @@ export class EditArticleComponent implements OnInit {
         this.spinner.hide();
         this.navigateBack();
       }, error => {
-        this.spinner.hide();
-        console.log(error);
+        let route = this.router.config.find(r => r.path === 'error');
+        route.data = { error: error.message };
+        this.router.navigateByUrl('error');
       });
       this.articleForm.value.author = this.article.author;
       this.articlesService.updateArticle(this.articleForm.value);
