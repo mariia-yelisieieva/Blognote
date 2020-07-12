@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 
 import { Author } from '../models/author.model';
 import { AuthService } from '../authorization/services/auth.service';
@@ -26,6 +26,9 @@ export class AuthorsService {
       .subscribe(authors => {
         this.authors = authors;
         this.updateAuthorList();
+      }, error => {
+        console.log(error);
+        this.authorsChanged.next([]);
       });
   }
 

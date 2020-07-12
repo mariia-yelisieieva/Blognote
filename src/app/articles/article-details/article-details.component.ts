@@ -6,6 +6,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Article } from 'src/app/models/article.model';
 import { ArticlesService } from 'src/app/services/articles.service';
 import { AuthService } from 'src/app/authorization/services/auth.service';
+import { Author } from 'src/app/models/author.model';
 
 @Component({
   selector: 'app-article-details',
@@ -26,7 +27,10 @@ export class ArticleDetailsComponent implements OnInit, OnDestroy {
     this.spinner.show();
     this.route.params.subscribe((params: Params) => {
       const id = params["id"];
-      this.articlesChangedSubscription = this.articlesService.articlesChanged.subscribe(articles => this.selectArticle(id))
+      this.articlesChangedSubscription = this.articlesService.articlesChanged.subscribe(articles => {
+        this.selectArticle(id);
+        this.spinner.hide();
+      })
       this.selectArticle(id);
     })
   }
@@ -35,6 +39,7 @@ export class ArticleDetailsComponent implements OnInit, OnDestroy {
     this.article = this.articlesService.getArticleById(id);
     if (this.article == undefined) {
       this.article = new Article("", "", "", new Date(), []);
+      this.article.author = new Author("", "", "", "", "");
     } else {
       this.articlesLoaded = true;
       this.spinner.hide();

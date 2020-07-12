@@ -9,4 +9,10 @@ export class Article {
     public name: string, public annotation: string,
     public creationDate: Date, public articleBlocks: ArticleBlock[]) { }
 
+  copy(source: Article) {
+    for (let key of Object.keys(source)) {
+      this[key] = source[key];
+    }
+  }
+
 }

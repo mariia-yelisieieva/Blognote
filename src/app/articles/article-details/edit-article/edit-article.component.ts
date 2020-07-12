@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 import { Article } from 'src/app/models/article.model';
 import { ArticlesService } from 'src/app/services/articles.service';
@@ -29,7 +30,7 @@ export class EditArticleComponent implements OnInit {
   author: Author;
   creationDate: Date = new Date();
 
-  constructor(private route: ActivatedRoute, private router: Router,
+  constructor(private route: ActivatedRoute, private router: Router, private spinner: NgxSpinnerService,
     private articlesService: ArticlesService, private authorsService: AuthorsService, private authService: AuthService) { }
 
   ngOnInit(): void {
@@ -55,15 +56,17 @@ export class EditArticleComponent implements OnInit {
       articleAnnotation = this.article.annotation;
       if (this.article["articleBlocks"]) {
         for (let block of this.article.articleBlocks) {
-          articleBlocks.push(this.getBlockFormGroup(block.type, block));
+          articleBlocks.push(this.getBlockFormGroup(block));
         }
       }
     }
 
     this.articleForm = new FormGroup({
+      'id': new FormControl(this.article.id, Validators.required),
+      'creationDate': new FormControl(this.article.creationDate, Validators.required),
       'name': new FormControl(articleName, Validators.required),
       'annotation': new FormControl(articleAnnotation, Validators.required),
-      'blocks': articleBlocks,
+      'articleBlocks': articleBlocks,
     });
   }
 
@@ -78,59 +81,67 @@ export class EditArticleComponent implements OnInit {
       this.article.author = this.originalArticle.author;
   }
 
-  private getBlockFormGroup(blockType: string, block: ArticleBlock): FormGroup {
-    switch (blockType) {
+  private getBlockFormGroup(block: ArticleBlock): FormGroup {
+    let blockFields = {
+      'id': new FormControl(block.id),
+      'order': new FormControl(block.order),
+      'type': new FormControl(block.type),
+      'content': new FormControl(block.content),
+    };
+    switch (block.type) {
       case ArticleBlockType.Text:
-        return new FormGroup({
-          'content': new FormControl(block?.content),
-          'name': new FormControl((<TextArticleBlock>block)?.name),
-        });
+        blockFields['name'] = new FormControl((<TextArticleBlock>block).name);
 
       case ArticleBlockType.Image:
-        return new FormGroup({
-          'content': new FormControl(block?.content, Validators.required),
-          'imageComment': new FormControl((<ImageArticleBlock>block)?.imageComment),
-        });
+        blockFields['imageComment'] = new FormControl((<ImageArticleBlock>block).imageComment);
 
       case ArticleBlockType.Quote:
-        return new FormGroup({
-          'content': new FormControl(block?.content, Validators.required),
-          'quoteAuthor': new FormControl((<QuoteArticleBlock>block)?.quoteAuthor),
-        });
+        blockFields['quoteAuthor'] = new FormControl((<QuoteArticleBlock>block).quoteAuthor);
     }
+    return new FormGroup(blockFields);
   }
 
   get blockControls() {
-    return (<FormArray>this.articleForm.get('blocks')).controls;
+    return (<FormArray>this.articleForm.get('articleBlocks')).controls;
   }
 
   onSubmit() {
-    // if (this.editMode) {
-    //   this.recipeService.updateRecipe(this.recipeForm.value, this.id);
-    // } else {
-    //   this.recipeService.addRecipe(this.recipeForm.value);
-    // }
-    this.navigateBack();
+    this.spinner.show();
+    if (this.editMode) {
+      this.articlesService.articlesChanged.subscribe(articles => {
+        this.spinner.hide();
+        this.navigateBack();
+      }, error => {
+        this.spinner.hide();
+        console.log(error);
+      });
+      this.articleForm.value.author = this.article.author;
+      this.articlesService.updateArticle(this.articleForm.value);
+    } else {
+      // this.articlesService.addRecipe(this.article);
+    }
   }
 
   onAddBlock(blockType: string) {
     let id = this.article.articleBlocks.length + 1;
+    let block: ArticleBlock;
     switch (blockType) {
       case ArticleBlockType.Text:
-        this.article.articleBlocks.push(new TextArticleBlock(id, id, "", ""));
+        block = new TextArticleBlock(id, id, "", "");
         break;
       case ArticleBlockType.Image:
-        this.article.articleBlocks.push(new ImageArticleBlock(id, id, "", ""));
+        block = new ImageArticleBlock(id, id, "", "");
         break;
       case ArticleBlockType.Quote:
-        this.article.articleBlocks.push(new QuoteArticleBlock(id, id, "", ""));
+        block = new QuoteArticleBlock(id, id, "", "");
         break;
     }
-    (<FormArray>this.articleForm.get('blocks')).push(this.getBlockFormGroup(blockType, null));
+    this.article.articleBlocks.push(block);
+    (<FormArray>this.articleForm.get('articleBlocks')).push(this.getBlockFormGroup(block));
   }
 
   onRemoveBlock(index: number) {
-    (<FormArray>this.articleForm.get('blocks')).removeAt(index);
+    (<FormArray>this.articleForm.get('articleBlocks')).removeAt(index);
     this.article.articleBlocks.splice(index, 1);
   }
 
