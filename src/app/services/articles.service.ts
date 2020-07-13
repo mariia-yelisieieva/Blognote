@@ -89,12 +89,34 @@ export class ArticlesService {
   }
 
   removeArticle(id: string) {
+    let index: number;
+    let article: Article;
     for (let i = 0; i < this.articles.length; i++) {
       if (this.articles[i].id == id) {
-        this.articles.splice(i, 1);
-        this.updateArticleList();
+        index = i;
+        article = this.articles[i];
       }
     }
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': this.authService.authorizationHeaderValue
+      })
+    };
+
+    this.http
+      .delete(this.config.resourceApiURI + "/articles/remove/" + id, httpOptions)
+      .subscribe(responce => {
+        this.articles.splice(index, 1);
+        this.updateArticleList();
+        this.router.navigateByUrl('articles');
+      }, error => {
+        let route = this.router.config.find(r => r.path === 'error');
+        route.data = { error: error.message };
+        this.router.navigateByUrl('error');
+        this.updateArticleList();
+      });
   }
 
   private createArticleDTO(article: Article): any {

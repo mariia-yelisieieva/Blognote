@@ -31,7 +31,7 @@ export class ArticleDetailsComponent implements OnInit, OnDestroy {
       this.articlesChangedSubscription = this.articlesService.articlesChanged.subscribe(articles => {
         this.selectArticle(id);
         this.spinner.hide();
-      })
+      });
       this.selectArticle(id);
     })
   }
@@ -52,11 +52,11 @@ export class ArticleDetailsComponent implements OnInit, OnDestroy {
     this.articlesChangedSubscription.unsubscribe();
   }
 
-  // isCurrentUser(id: string): boolean {
-  //   return this.authService.isCurrentUser(id);
-  // }
-
   onRemoveArticle() {
+    this.spinner.hide();
+    this.articlesChangedSubscription = this.articlesService.articlesChanged.subscribe(articles => {
+      this.spinner.hide();
+    });
     this.articlesService.removeArticle(this.article.id);
   }
 
