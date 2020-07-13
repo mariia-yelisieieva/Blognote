@@ -27,14 +27,10 @@ export class EditArticleComponent implements OnInit {
   article: Article = new Article("", "", "", new Date(), []);
   originalArticle: Article = this.article;
 
-  author: Author;
-  creationDate: Date = new Date();
-
   constructor(private route: ActivatedRoute, private router: Router, private spinner: NgxSpinnerService,
     private articlesService: ArticlesService, private authorsService: AuthorsService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.author = this.authorsService.getAuthorByUserId(this.authService.id);
     this.route.params.subscribe((params: Params) => {
       this.id = params["id"];
       this.editMode = this.id != null;
@@ -50,7 +46,6 @@ export class EditArticleComponent implements OnInit {
     if (this.editMode) {
       this.originalArticle = this.articlesService.getArticleById(this.id);
       this.cloneOriginalArticle();
-      this.creationDate = this.article.creationDate;
 
       articleName = this.article.name;
       articleAnnotation = this.article.annotation;
@@ -59,10 +54,12 @@ export class EditArticleComponent implements OnInit {
           articleBlocks.push(this.getBlockFormGroup(block));
         }
       }
+    } else {
+      this.article.author = this.authorsService.getAuthorByUserId(this.authService.id);
     }
 
     this.articleForm = new FormGroup({
-      'id': new FormControl(this.article.id, Validators.required),
+      'id': new FormControl(this.article.id),
       'creationDate': new FormControl(this.article.creationDate, Validators.required),
       'name': new FormControl(articleName, Validators.required),
       'annotation': new FormControl(articleAnnotation, Validators.required),
@@ -107,19 +104,18 @@ export class EditArticleComponent implements OnInit {
 
   onSubmit() {
     this.spinner.show();
+    this.articleForm.value.author = this.article.author;
     if (this.editMode) {
       this.articlesService.articlesChanged.subscribe(articles => {
         this.spinner.hide();
         this.navigateBack();
-      }, error => {
-        let route = this.router.config.find(r => r.path === 'error');
-        route.data = { error: error.message };
-        this.router.navigateByUrl('error');
       });
-      this.articleForm.value.author = this.article.author;
       this.articlesService.updateArticle(this.articleForm.value);
     } else {
-      // this.articlesService.addRecipe(this.article);
+      this.articlesService.articlesChanged.subscribe(articles => {
+        this.spinner.hide();
+      });
+      this.articlesService.addArticle(this.articleForm.value);
     }
   }
 

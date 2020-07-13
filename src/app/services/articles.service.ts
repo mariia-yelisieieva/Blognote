@@ -97,14 +97,7 @@ export class ArticlesService {
     }
   }
 
-  updateArticle(article: Article) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'Authorization': this.authService.authorizationHeaderValue
-      })
-    };
-
+  private createArticleDTO(article: Article): any {
     let articleBlocks = [];
     for (let block of article.articleBlocks) {
       articleBlocks.push({
@@ -117,7 +110,7 @@ export class ArticlesService {
         QuoteAuthor: block['quoteAuthor'],
       });
     }
-    let articleToPass = {
+    let articleDto = {
       Id: article.id,
       AuthorId: article.author.id,
       Annotation: article.annotation,
@@ -125,6 +118,41 @@ export class ArticlesService {
       Name: article.name,
       Blocks: articleBlocks
     }
+    return articleDto;
+  }
+
+  addArticle(article: Article) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': this.authService.authorizationHeaderValue
+      })
+    };
+
+    let articleToPass = this.createArticleDTO(article);
+    this.http
+      .post(this.config.resourceApiURI + "/articles/create", articleToPass, httpOptions)
+      .subscribe(responce => {
+        article.id = <string>responce;
+        this.articles.push(article);
+        this.updateArticleList();
+        this.router.navigateByUrl('articles/'+ responce);
+      }, error => {
+        let route = this.router.config.find(r => r.path === 'error');
+        route.data = { error: error.message };
+        this.router.navigateByUrl('error');
+      });
+  }
+
+  updateArticle(article: Article) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': this.authService.authorizationHeaderValue
+      })
+    };
+
+    let articleToPass = this.createArticleDTO(article);
     this.http
       .put(this.config.resourceApiURI + "/articles/update", articleToPass, httpOptions)
       .subscribe(responce => {

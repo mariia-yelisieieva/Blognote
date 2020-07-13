@@ -25,6 +25,7 @@ const routes: Routes = [
   { path: "auth-callback", component: AuthCallbackComponent},
 
   { path: "articles", component: ArticleListComponent},
+  { path: "articles/new", component: EditArticleComponent },
   { path: "articles/:id/edit", component: EditArticleComponent },
   { path: "articles/:id", component: ArticleDetailsComponent },
 

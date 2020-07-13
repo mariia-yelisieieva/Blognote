@@ -21,6 +21,7 @@
 
       <div class="navbar-default pull-right" *ngIf="isAuthenticated">
           <ul class="nav navbar-nav">
+            <li><a class="cursor-pointer" (click)="onNewArticle()">New article</a></li>
             <li><a class="cursor-default">{{user}}</a></li>
             <li><a (click)="signOut()" class="cursor-pointer">Sign out</a></li>
           </ul>

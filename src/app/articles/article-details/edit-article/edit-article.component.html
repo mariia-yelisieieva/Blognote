@@ -30,7 +30,7 @@
 
         <div class="panel-body">
           <div class="col-md-12 blocks-array" formArrayName="articleBlocks">
-            <div class="alert alert-danger" role="alert" *ngIf="!articleForm.get('articleBlocks').valid">
+            <div class="alert alert-warning" role="alert" *ngIf="!articleForm.get('articleBlocks').valid">
               An article must contain at least 1 block, all blocks should contain valid data.
             </div>
 

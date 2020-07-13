@@ -78,6 +78,10 @@ export class AuthorsService {
     return this.authService.isCurrentUser(id);
   }
 
+  isAuthorExists(userId: string) {
+    return this.authors.some(author => author.userId == userId);
+  }
+
   private updateAuthorList() {
     this.authorsChanged.next(this.authors.slice());
   }
