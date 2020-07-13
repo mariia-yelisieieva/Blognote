@@ -85,7 +85,7 @@ export class ArticlesService {
 
   private checkArticles() {
     if (this.articles.length == 0)
-    this.getArticles();
+      this.getArticles();
   }
 
   removeArticle(id: string) {
@@ -180,7 +180,7 @@ export class ArticlesService {
       .subscribe(responce => {
         for (let articleToUpdate of this.articles) {
           if (articleToUpdate.id == article.id) {
-            articleToUpdate.copy(article);
+            this.copyArticle(article, articleToUpdate);
           }
         }
         this.updateArticleList();
@@ -189,6 +189,12 @@ export class ArticlesService {
         route.data = { error: error.message };
         this.router.navigateByUrl('error');
       });
+  }
+
+  private copyArticle(source: Article, target: Article) {
+    for (let key of Object.keys(source)) {
+      target[key] = source[key];
+    }
   }
 
   private updateArticleList() {

@@ -57,7 +57,7 @@ export class AuthService {
   }
 
   get name(): string {
-    return this.user != null ? this.user.profile.name : '';
+    return this.user != null ? this.user.profile.given_name : '';
   }
 
   get id(): string {

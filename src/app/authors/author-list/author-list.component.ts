@@ -25,7 +25,8 @@ export class AuthorListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.authorsChangedSubscription.unsubscribe();
+    if (this.authorsChangedSubscription)
+      this.authorsChangedSubscription.unsubscribe();
   }
 
 }

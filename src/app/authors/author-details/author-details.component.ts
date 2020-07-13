@@ -31,7 +31,8 @@ export class AuthorDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.authorChangedSubscription.unsubscribe();
+    if (this.authorChangedSubscription)
+      this.authorChangedSubscription.unsubscribe();
   }
 
   onRemoveAuthor() {

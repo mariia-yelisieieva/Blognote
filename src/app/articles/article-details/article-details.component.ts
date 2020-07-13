@@ -49,7 +49,8 @@ export class ArticleDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.articlesChangedSubscription.unsubscribe();
+    if (this.articlesChangedSubscription)
+      this.articlesChangedSubscription.unsubscribe();
   }
 
   onRemoveArticle() {
