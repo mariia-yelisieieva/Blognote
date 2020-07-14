@@ -47,7 +47,7 @@ export class AuthService {
   }
 
   isCurrentUser(id: string): boolean {
-    return id == this.id;
+    return this.isAuthenticated() && id == this.id;
   }
 
   get authorizationHeaderValue(): string {

@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Article } from '../models/article.model';
@@ -17,13 +17,17 @@ import { AuthService } from '../authorization/services/auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class ArticlesService {
+export class ArticlesService implements OnDestroy {
   articlesChanged = new Subject<Article[]>();
 
   private articles: Article[] = [];
 
   constructor(private authorsService: AuthorsService, private http: HttpClient,
     private config: ConfigService, private authService: AuthService, private router: Router) { }
+
+    ngOnDestroy(): void {
+      this.articlesLoaded.unsubscribe();
+    }
 
   getArticles() {
     this.authorsService.checkAuthors();
@@ -65,12 +69,26 @@ export class ArticlesService {
     return articles;
   }
 
-  getArticleById(id: string) {
-    this.checkArticles();
-    for (let article of this.articles) {
-      if (article.id == id)
-        return article;
-    }
+  private articlesLoaded: Subscription;
+  getArticleById(id: string): Observable<Article> {
+    const articleObs = new Observable<Article>((observer) => {
+      this.articlesLoaded = this.articlesChanged.subscribe(articles => {
+        for (let article of articles) {
+          if (article.id == id) {
+            observer.next(article);
+            break;
+          }
+        }
+      })
+      this.checkArticles();
+      for (let article of this.articles) {
+        if (article.id == id) {
+          observer.next(article);
+          break;
+        }
+      }
+    });
+    return articleObs;
   }
 
   getArticlesByAuthor(authorId: string): Article[] {

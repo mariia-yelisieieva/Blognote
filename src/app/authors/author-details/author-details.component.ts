@@ -13,9 +13,9 @@ import { Article } from 'src/app/models/article.model';
   styleUrls: ['./author-details.component.css']
 })
 export class AuthorDetailsComponent implements OnInit, OnDestroy {
-  selectedAuthor: Author;
-  articlesByAuthor: Article[];
-  isCurrentUser: boolean;
+  selectedAuthor: Author = new Author("", "", "", "", "");
+  articlesByAuthor: Article[] = [];
+  isCurrentUser: boolean = false;
 
   private authorChangedSubscription: Subscription;
 
@@ -25,8 +25,10 @@ export class AuthorDetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       const id = params["id"];
-      this.authorChangedSubscription = this.authorsService.authorsChanged.subscribe(authors => this.selectAuthor(id))
-      this.selectAuthor(id);
+      this.articlesService.articlesChanged.subscribe(articles => {
+        this.selectAuthor(id);
+      });
+      this.articlesService.getArticles();
     });
   }
 
@@ -35,21 +37,12 @@ export class AuthorDetailsComponent implements OnInit, OnDestroy {
       this.authorChangedSubscription.unsubscribe();
   }
 
-  onRemoveAuthor() {
-    this.authorsService.removeAuthor(this.selectedAuthor.id);
-  }
-
   private selectAuthor(id: string) {
-    this.selectedAuthor = this.authorsService.getAuthorByUserId(id);
-    if (this.selectedAuthor != undefined) {
+    this.authorsService.getAuthorByUserId(id).subscribe(author => {
+      this.selectedAuthor = author;
       this.articlesByAuthor = this.articlesService.getArticlesByAuthor(this.selectedAuthor.id);
       this.isCurrentUser = this.authorsService.isCurrentUser(this.selectedAuthor.userId);
-      return;
-    }
-
-    this.selectedAuthor = new Author("", "", "", "", "");
-    this.articlesByAuthor = [];
-    this.isCurrentUser = false;
+    });
   }
 
 }

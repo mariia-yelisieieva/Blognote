@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Subject, Subscription } from 'rxjs';
+import { Subject, Subscription, Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 import { Author } from '../models/author.model';
@@ -11,13 +11,17 @@ import { ConfigService } from '../authorization/services/config.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthorsService {
+export class AuthorsService implements OnDestroy {
   authorsChanged = new Subject<Author[]>();
 
   private authors: Author[] = [];
 
   constructor(private authService: AuthService, private http: HttpClient, private config: ConfigService,
     private router: Router) {
+  }
+
+  ngOnDestroy(): void {
+    this.authorsLoaded.unsubscribe();
   }
 
   getAuthors(): Subscription {
@@ -45,12 +49,26 @@ export class AuthorsService {
     return authors;
   }
 
-  getAuthorByUserId(id: string) {
-    this.checkAuthors();
-    for (let author of this.authors) {
-      if (author.userId == id)
-        return author;
-    }
+  private authorsLoaded: Subscription;
+  getAuthorByUserId(id: string): Observable<Author> {
+    const authorObs = new Observable<Author>((observer) => {
+      this.authorsLoaded = this.authorsChanged.subscribe(articles => {
+        for (let author of this.authors) {
+          if (author.userId == id) {
+            observer.next(author);
+            break;
+          }
+        }
+      })
+      this.checkAuthors();
+      for (let author of this.authors) {
+        if (author.userId == id) {
+          observer.next(author);
+          break;
+        }
+      }
+    });
+    return authorObs;
   }
 
   getAuthorById(id: string) {

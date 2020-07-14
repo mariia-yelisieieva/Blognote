@@ -26,7 +26,7 @@ export class EditArticleComponent implements OnInit, OnDestroy {
   editMode: boolean;
   articleForm: FormGroup;
   article: Article;
-  originalArticle: Article = this.article;
+  originalArticle: Article;
 
   private articlesChanged: Subscription;
   private authorsChanged: Subscription;
@@ -50,32 +50,20 @@ export class EditArticleComponent implements OnInit, OnDestroy {
   }
 
   private loadArticle() {
-    this.article = new Article("", "", "", new Date(), []);
-    this.article.author = new Author("", "", "", "", "");
-
     if (this.editMode) {
-      this.articlesChanged = this.articlesService.articlesChanged.subscribe(articles => {
-        this.originalArticle = this.articlesService.getArticleById(this.id);
+      this.articlesService.getArticleById(this.id).subscribe(article => {
+        this.originalArticle = article;
         this.initForm();
       });
-      this.originalArticle = this.articlesService.getArticleById(this.id);
-      if (this.originalArticle) {
-        this.initForm();
-      } else {
-        this.createDummyForm();
-      }
     } else {
-      this.authorsChanged = this.authorsService.authorsChanged.subscribe(authors => {
-        this.article.author = this.authorsService.getAuthorByUserId(this.authService.id);
-        this.initForm();
-      });
-      let author = this.authorsService.getAuthorByUserId(this.authService.id);
-      if (author) {
+      this.authorsService.getAuthorByUserId(this.authService.id).subscribe(author => {
+        this.article = new Article("", "", "", new Date(), []);
         this.article.author = author;
         this.initForm();
-      } else {
-        this.createDummyForm();
-      }
+      });
+    }
+    if (!this.article) {
+      this.createDummyForm();
     }
   }
 
@@ -105,6 +93,9 @@ export class EditArticleComponent implements OnInit, OnDestroy {
   }
 
   private createDummyForm() {
+    this.article = new Article("", "", "", new Date(), []);
+    this.article.author = new Author("", "", "", "", "");
+
     this.articleForm = new FormGroup({
       'id': new FormControl(null),
       'creationDate': new FormControl(null, Validators.required),
@@ -122,7 +113,7 @@ export class EditArticleComponent implements OnInit, OnDestroy {
     }
     this.article = new Article(this.originalArticle.id, this.originalArticle.name,
       this.originalArticle.annotation, this.originalArticle.creationDate, blocks);
-      this.article.author = this.originalArticle.author;
+    this.article.author = this.originalArticle.author;
   }
 
   private getBlockFormGroup(block: ArticleBlock): FormGroup {
@@ -130,7 +121,7 @@ export class EditArticleComponent implements OnInit, OnDestroy {
       'id': new FormControl(block.id),
       'order': new FormControl(block.order),
       'type': new FormControl(block.type),
-      'content': new FormControl(block.content),
+      'content': new FormControl(block.content, Validators.required),
     };
     switch (block.type) {
       case ArticleBlockType.Text:

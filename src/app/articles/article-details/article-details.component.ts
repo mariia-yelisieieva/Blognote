@@ -17,9 +17,9 @@ export class ArticleDetailsComponent implements OnInit, OnDestroy {
   article: Article;
   articlesLoaded: boolean = false;
   editingMode: boolean = false;
-  isCurrentUser: boolean;
+  isCurrentUser: boolean = false;
 
-  private articlesChangedSubscription: Subscription;
+  private articleLoadedSubscription: Subscription;
 
   constructor(private route: ActivatedRoute, private articlesService: ArticlesService,
     private authService: AuthService, private spinner: NgxSpinnerService) { }
@@ -28,34 +28,31 @@ export class ArticleDetailsComponent implements OnInit, OnDestroy {
     this.spinner.show();
     this.route.params.subscribe((params: Params) => {
       const id = params["id"];
-      this.articlesChangedSubscription = this.articlesService.articlesChanged.subscribe(articles => {
-        this.selectArticle(id);
-        this.spinner.hide();
-      });
       this.selectArticle(id);
     })
   }
 
   private selectArticle(id: string) {
-    this.article = this.articlesService.getArticleById(id);
-    if (this.article == undefined) {
-      this.article = new Article("", "", "", new Date(), []);
-      this.article.author = new Author("", "", "", "", "");
-    } else {
+    this.articleLoadedSubscription = this.articlesService.getArticleById(id).subscribe(article => {
+      this.article = article;
       this.articlesLoaded = true;
       this.spinner.hide();
       this.isCurrentUser = this.authService.isCurrentUser(this.article.author.userId);
+    });
+    if (!this.article) {
+      this.article = new Article("", "", "", new Date(), []);
+      this.article.author = new Author("", "", "", "", "");
     }
   }
 
   ngOnDestroy(): void {
-    if (this.articlesChangedSubscription)
-      this.articlesChangedSubscription.unsubscribe();
+    if (this.articleLoadedSubscription)
+      this.articleLoadedSubscription.unsubscribe();
   }
 
   onRemoveArticle() {
-    this.spinner.hide();
-    this.articlesChangedSubscription = this.articlesService.articlesChanged.subscribe(articles => {
+    this.spinner.show();
+    this.articleLoadedSubscription = this.articlesService.articlesChanged.subscribe(articles => {
       this.spinner.hide();
     });
     this.articlesService.removeArticle(this.article.id);
