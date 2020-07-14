@@ -20,6 +20,8 @@ export class AuthService {
     this.manager.getUser().then(user => {
       this.user = user;
       this._authNavStatusSource.next(this.isAuthenticated());
+    }).catch(error => {
+      console.log(error);
     });
   }
 
@@ -30,16 +32,16 @@ export class AuthService {
   }
 
   login() {
-    return this.manager.signinRedirect();
+    return this.manager.signinRedirect().catch();
   }
 
   async completeAuthentication() {
-      this.user = await this.manager.signinRedirectCallback();
+      this.user = await this.manager.signinRedirectCallback().catch();
       this._authNavStatusSource.next(this.isAuthenticated());
   }
 
   async signout() {
-    await this.manager.signoutRedirect();
+    await this.manager.signoutRedirect().catch();
   }
 
   isAuthenticated(): boolean {

@@ -20,29 +20,27 @@ export class AuthCallbackComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.spinner.show();
-    this.authorsChanged = this.authorsService.authorsChanged.subscribe(authors => {
+    this.authorsChanged = this.authorsService.authorsChanged.subscribe(async authors => {
       this.authenticated = this.authService.authNavStatus$.subscribe(isAuthenticated => {
         if (isAuthenticated) {
           if (!this.authorsService.isAuthorExists(this.authService.id)) {
             this.authorsService.authorsChanged.subscribe(authors => {
-              this.navigateAway();
+              this.navigateAway("authors/" + this.authService.id);
             });
             this.authorsService.createAuthor();
           } else {
             this.navigateAway();
           }
-        } else {
-          this.navigateAway();
         }
       });
-      this.authService.completeAuthentication();
+      await this.authService.completeAuthentication();
     });
     this.authorsService.getAuthors();
   }
 
-  private navigateAway() {
+  private navigateAway(url: string = "articles") {
     this.spinner.hide();
-    this.router.navigate(['/articles']);
+    this.router.navigate(['/' + url]);
   }
 
   ngOnDestroy(): void {

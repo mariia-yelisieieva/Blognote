@@ -6,7 +6,7 @@
   </span>
   <div class="pull-left align-middle">
     <h4 class="align-middle pointer" [routerLink]="['/authors', article.author.userId]">
-      {{article.author.name}} | {{article.author.description | shorten:20}}
+      {{article.author.name}}<span *ngIf="article.author.description != ''"> | {{article.author.description | shorten:20}}</span>
     </h4>
     <h5>{{article.creationDate | date:'mediumDate'}}</h5>
   </div>

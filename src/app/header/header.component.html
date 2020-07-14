@@ -22,7 +22,12 @@
       <div class="navbar-default pull-right" *ngIf="isAuthenticated">
           <ul class="nav navbar-nav">
             <li><a class="cursor-pointer" (click)="onNewArticle()">New article</a></li>
-            <li routerLinkActive="active"><a routerLink="/profile">{{user}}</a></li>
+            <li routerLinkActive="active" class="dropdown" appDropdown>
+              <a class="dropdown-toggle" role="button">{{user}} <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                  <li><a routerLink="/profile">Edit profile</a></li>
+              </ul>
+            </li>
             <li><a (click)="signOut()" class="cursor-pointer">Sign out</a></li>
           </ul>
       </div>

@@ -29,6 +29,7 @@ import { ArticleFooterComponent } from './articles/article-details/article-foote
 import { EditArticleComponent } from './articles/article-details/edit-article/edit-article.component';
 import { DropdownDirective } from './utility/dropdown.directive';
 import { ErrorComponent } from './error/error.component';
+import { EditProfileComponent } from './authors/edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { ErrorComponent } from './error/error.component';
     ArticleFooterComponent,
     EditArticleComponent,
     DropdownDirective,
-    ErrorComponent
+    ErrorComponent,
+    EditProfileComponent
   ],
   imports: [
     BrowserModule,
