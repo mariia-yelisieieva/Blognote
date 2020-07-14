@@ -23,6 +23,7 @@ const routes: Routes = [
   { path: "register", component: RegisterComponent},
   { path: "login", component: LoginComponent},
   { path: "auth-callback", component: AuthCallbackComponent},
+  { path: "profile", component: AuthorDetailsComponent},
 
   { path: "articles", component: ArticleListComponent},
   { path: "articles/new", component: EditArticleComponent },

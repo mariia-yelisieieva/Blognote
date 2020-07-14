@@ -79,17 +79,36 @@ export class AuthorsService implements OnDestroy {
     }
   }
 
-  removeAuthor(id: string) {
-    if (!this.isCurrentUser(id)) {
+  createAuthor() {
+    this.checkAuthors();
+    if (!this.authService.isAuthenticated()) {
       return;
     }
 
-    for (let i = 0; i < this.authors.length; i++) {
-      if (this.authors[i].id == id) {
-        this.authors.splice(i, 1);
+    const authorToCreate = {
+      UserId: this.authService.id,
+      Name: this.authService.name,
+      Description: "",
+      ImageUrl: "assets/images/blognote_sm.png",
+    };
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': this.authService.authorizationHeaderValue
+      })
+    };
+    this.http
+      .post(this.config.resourceApiURI + "/authors/create", authorToCreate, httpOptions)
+      .subscribe(responce => {
+        const id = <string>responce;
+        this.authors.push(new Author(id, this.authService.id, this.authService.name, "assets/images/blognote_sm.png", ""));
         this.updateAuthorList();
-      }
-    }
+      }, error => {
+        let route = this.router.config.find(r => r.path === 'error');
+        route.data = { error: error.message };
+        this.router.navigateByUrl('error');
+      });
   }
 
   isCurrentUser(id: string): boolean {

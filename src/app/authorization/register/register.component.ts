@@ -37,10 +37,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
         this.spinner.hide();
       }))
       .subscribe(result => {
-          if (result) this.success = true
+        if (result) this.success = true
       }, error => {
         let route = this.router.config.find(r => r.path === 'error');
-        route.data = { error: error.message };
+        route.data = { error: error };
         this.router.navigateByUrl('error');
       });
   }
