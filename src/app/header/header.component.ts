@@ -33,8 +33,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   onNewArticle() {
     if (this.authorsService.isAuthorExists(this.authService.id)) {
       this.router.navigate(['articles', 'new']);
-    } else {
-      // TODO: navigate to create author
     }
   }
 

@@ -14,6 +14,7 @@ import { AboutComponent } from './about/about.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { EditArticleComponent } from './articles/article-details/edit-article/edit-article.component';
 import { ErrorComponent } from './error/error.component';
+import { EditProfileComponent } from './authors/edit-profile/edit-profile.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "/welcome", pathMatch: "full" },
@@ -23,7 +24,7 @@ const routes: Routes = [
   { path: "register", component: RegisterComponent},
   { path: "login", component: LoginComponent},
   { path: "auth-callback", component: AuthCallbackComponent},
-  { path: "profile", component: AuthorDetailsComponent},
+  { path: "profile", component: EditProfileComponent},
 
   { path: "articles", component: ArticleListComponent},
   { path: "articles/new", component: EditArticleComponent },

@@ -1,1 +1,32 @@
-<p>edit-profile works!</p>
+<form [formGroup]="authorForm" (ngSubmit)="onSubmit()">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div>
+        <h2 class="panel-title">Edit profile information:</h2>
+      </div>
+    </div>
+
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-xs-8">
+          <input type="text" id="author-name" class="form-control" formControlName="name" placeholder="Name">
+          <hr>
+          <input type="text" class="form-control" formControlName="imageUrl" placeholder="Image URL" (change)="onUrlChange()">
+          <hr>
+          <p class="list-group-item-text">About author:</p>
+          <textarea class="form-control" formControlName="description"></textarea>
+        </div>
+        <div class="col-xs-4">
+          <img class="img-responsive" [src]="authorImageUrl">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="pull-right">
+            <button type="submit" class="btn btn-primary" [disabled]="!authorForm.valid">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

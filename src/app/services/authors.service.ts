@@ -52,13 +52,14 @@ export class AuthorsService implements OnDestroy {
   private authorsLoaded: Subscription;
   getAuthorByUserId(id: string): Observable<Author> {
     const authorObs = new Observable<Author>((observer) => {
-      this.authorsLoaded = this.authorsChanged.subscribe(articles => {
+      this.authorsLoaded = this.authorsChanged.subscribe(authors => {
         for (let author of this.authors) {
           if (author.userId == id) {
             observer.next(author);
             break;
           }
         }
+        this.authorsLoaded.unsubscribe();
       })
       this.checkAuthors();
       for (let author of this.authors) {
@@ -69,6 +70,21 @@ export class AuthorsService implements OnDestroy {
       }
     });
     return authorObs;
+  }
+
+  checkUniqueName(name: string, oldName: string): Observable<boolean> {
+    return new Observable<boolean>((observer) => {
+      this.authorsLoaded = this.authorsChanged.subscribe(authors => {
+        let isUnique = !this.authors.some(author => author.name == name && author.name != oldName);
+        observer.next(isUnique);
+        this.authorsLoaded.unsubscribe();
+      })
+      this.checkAuthors();
+      if (this.authors.length != 0) {
+        let isUnique = !this.authors.some(author => author.name == name && author.name != oldName);
+        observer.next(isUnique);
+      }
+    });
   }
 
   getAuthorById(id: string) {
@@ -109,6 +125,47 @@ export class AuthorsService implements OnDestroy {
         route.data = { error: error.message };
         this.router.navigateByUrl('error');
       });
+  }
+
+  updateAuthor(author: Author) {
+    if (author.imageUrl == "") {
+      author.imageUrl = "assets/images/blognote_sm.png";
+    }
+    const authorToSend = {
+      Id: author.id,
+      UserId: author.userId,
+      Name: author.name,
+      Description: author.description,
+      ImageUrl: author.imageUrl,
+    };
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': this.authService.authorizationHeaderValue
+      })
+    };
+    this.http
+      .put(this.config.resourceApiURI + "/authors/update", authorToSend, httpOptions)
+      .subscribe(responce => {
+        for (let articleToUpdate of this.authors) {
+          if (articleToUpdate.id == author.id) {
+            this.copyAuthor(author, articleToUpdate);
+          }
+        }
+        this.updateAuthorList();
+        this.router.navigateByUrl('/authors/' + author.userId);
+      }, error => {
+        let route = this.router.config.find(r => r.path === 'error');
+        route.data = { error: error.message };
+        this.router.navigateByUrl('error');
+      });
+  }
+
+  private copyAuthor(source: Author, target: Author) {
+    for (let key of Object.keys(source)) {
+      target[key] = source[key];
+    }
   }
 
   isCurrentUser(id: string): boolean {
