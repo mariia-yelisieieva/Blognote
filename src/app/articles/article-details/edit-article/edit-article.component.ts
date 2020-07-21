@@ -35,6 +35,7 @@ export class EditArticleComponent implements OnInit, OnDestroy {
     private articlesService: ArticlesService, private authorsService: AuthorsService, private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.spinner.hide();
     this.route.params.subscribe((params: Params) => {
       this.id = params["id"];
       this.editMode = this.id != null;

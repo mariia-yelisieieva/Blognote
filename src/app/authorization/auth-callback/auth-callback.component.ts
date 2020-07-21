@@ -44,8 +44,10 @@ export class AuthCallbackComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.authorsChanged.unsubscribe();
-    this.authenticated.unsubscribe();
+    if (this.authorsChanged)
+      this.authorsChanged.unsubscribe();
+    if (this.authenticated)
+      this.authenticated.unsubscribe();
   }
 
 }
