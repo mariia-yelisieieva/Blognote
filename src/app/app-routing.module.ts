@@ -15,20 +15,21 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { EditArticleComponent } from './articles/article-details/edit-article/edit-article.component';
 import { ErrorComponent } from './error/error.component';
 import { EditProfileComponent } from './authors/edit-profile/edit-profile.component';
+import { AuthRouteGuardService } from './authorization/services/auth-route-guard.service';
 
 const routes: Routes = [
   { path: "", redirectTo: "/welcome", pathMatch: "full" },
   { path: "welcome", component: WelcomeComponent },
   { path: "error", component: ErrorComponent },
 
-  { path: "register", component: RegisterComponent},
-  { path: "login", component: LoginComponent},
-  { path: "auth-callback", component: AuthCallbackComponent},
-  { path: "profile", component: EditProfileComponent},
+  { path: "register", component: RegisterComponent },
+  { path: "login", component: LoginComponent },
+  { path: "auth-callback", component: AuthCallbackComponent },
+  { path: "profile", component: EditProfileComponent, canActivate: [AuthRouteGuardService] },
 
-  { path: "articles", component: ArticleListComponent},
+  { path: "articles", component: ArticleListComponent },
   { path: "articles/new", component: EditArticleComponent },
-  { path: "articles/:id/edit", component: EditArticleComponent },
+  { path: "articles/:id/edit", component: EditArticleComponent, canActivate: [AuthRouteGuardService] },
   { path: "articles/:id", component: ArticleDetailsComponent },
 
   { path: "authors", component: AuthorListComponent, children: [
