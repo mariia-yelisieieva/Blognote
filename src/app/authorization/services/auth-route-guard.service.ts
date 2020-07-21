@@ -14,13 +14,12 @@ export class AuthRouteGuardService implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):Observable<boolean>|boolean {
 
     return this.authService.authNavStatus$
-      // .pipe(skip(1))
       .pipe(map((auth) => {
         if (auth) {
             return true;
         }
         let route = this.router.config.find(r => r.path === 'error');
-        route.data = { error: "The page is now unavailable, please login first" };
+        route.data = { error: "The page can only be reached from the UI" };
         this.router.navigateByUrl('error');
         return false;
       }));
